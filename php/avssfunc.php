@@ -184,7 +184,7 @@ global $file,$path,$pathprefix,$_SERVER;
     $t=ftell($fd);
     echo fread($fd, 131072);
   }
-  fclose($fp);
+  fclose($fd);
 
   exit;
 }
@@ -245,70 +245,70 @@ function gotopath($path)
 function readdirfiles()
 {
 
-  global $lsaudio,$alldirs,$nd,$allfiles,$naf;
-  global $bioidx,$infoidx,$folderimages,$photoidx;
-  global $icon_generic, $icon_audio, $icon_image;
-  $photoidx=0;
+	global $lsaudio,$alldirs,$nd,$allfiles,$naf;
+	global $bioidx,$infoidx,$folderimages,$photoidx;
+	global $icon_generic, $icon_audio, $icon_image;
+	$photoidx=0;
 
-  $fp = popen ("$lsaudio", "r");
-  $nadf=0;$nd=0;$naf=0;
-  while ($buffer = fgets($fp, 4096)) {
-    $x=explode("/",rtrim($buffer));
-    if ($x[0]=="d")  {
-      $alldirs[$nd++]=$x[6];
-    }
-    else {
-      $allfiles["size"][$naf]=$x[1];
-      $allfiles["mins"][$naf]=$x[2];
-      $allfiles["secs"][$naf]=$x[3];
-      $allfiles["bitrate"][$naf]=$x[4];
-      $allfiles["bitrateinfo"][$naf]=$x[5];
-      $allfiles["fname"][$naf]=$x[6];
-      $fname=$x[6];
+	$fp = popen ("$lsaudio", "r");
+	$nadf=0;$nd=0;$naf=0;
+	while ($buffer = fgets($fp, 4096)) {
+		$x=explode("/",rtrim($buffer));
+		if ($x[0]=="d")  {
+		    $alldirs[$nd++]=$x[6];
+		}
+		else {
+			$allfiles["size"][$naf]=$x[1];
+			$allfiles["mins"][$naf]=$x[2];
+			$allfiles["secs"][$naf]=$x[3];
+			$allfiles["bitrate"][$naf]=$x[4];
+			$allfiles["bitrateinfo"][$naf]=$x[5];
+			$allfiles["fname"][$naf]=$x[6];
+			$fname=$x[6];
 
 
-      if (preg_match("#\.(mp3|ogg|mpc)#i",$fname)) {
-	$allfiles["type"][$naf]="audio";
-	$allfiles["icon"][$naf]=$icon_audio;
-      }
-      elseif (strstr($fname,".bio"))  {
-	$bioidx=$naf;
-	$allfiles["type"][$naf]="bio";
-      }
-      elseif (strstr($fname,".info"))  {
-	$infoidx=$naf;
-	$allfiles["type"][$naf]="info";
-      }
-      elseif (strstr($fname,"photo.jpg")) {
-	$folderimages[$photoidx++]=$naf;
-	$allfiles["type"][$naf]="folderimage";
-      }
-      elseif (preg_match("#\.(jpg|png|gif)$#i",$fname)) {
-	$allfiles["type"][$naf]="image";
-	$allfiles["icon"][$naf]=$icon_image;
-      }
-      else  {
-	$allfiles["icon"][$naf]=$icon_generic;
-	$allfiles["type"][$naf]="generic";
-      }
-      $naf++;
-    }
-  }
-  pclose($fp);
+		if (preg_match("#\.(mp3|ogg|mpc)#i",$fname)) {
+			$allfiles["type"][$naf]="audio";
+			$allfiles["icon"][$naf]=$icon_audio;
+		}
+		elseif (strstr($fname,".bio"))  {
+			$bioidx=$naf;
+			$allfiles["type"][$naf]="bio";
+		}
+		elseif (strstr($fname,".info"))  {
+			$infoidx=$naf;
+			$allfiles["type"][$naf]="info";
+		}
+		elseif (strstr($fname,"photo.jpg")) {
+			$folderimages[$photoidx++]=$naf;
+			$allfiles["type"][$naf]="folderimage";
+		}
+		elseif (preg_match("#\.(jpg|png|gif)$#i",$fname)) {
+			$allfiles["type"][$naf]="image";
+			$allfiles["icon"][$naf]=$icon_image;
+		}
+		else  {
+			$allfiles["icon"][$naf]=$icon_generic;
+			$allfiles["type"][$naf]="generic";
+		}
+		$naf++;
+		}
+	}
+	pclose($fp);
 }
 
 function printbio()
 { 
-  global $bioidx,$allfiles;
-  if (isset($bioidx)) {
-    //readfile($allfiles["fname"][$bioidx]);
-    $bio=file_get_contents($allfiles["fname"][$bioidx]);
-    $bio=str_replace("{" , "<b>", $bio);
-    $bio=str_replace("}" , "</b>", $bio);
-    echo " <span id='cap'>$bio[0]</span>";
-    echo substr($bio,1);
-  }
-  else echo "No Bio";
+	global $bioidx,$allfiles;
+	if (isset($bioidx)) {
+		//readfile($allfiles["fname"][$bioidx]);
+		$bio=file_get_contents($allfiles["fname"][$bioidx]);
+		$bio=str_replace("{" , "<b>", $bio);
+		$bio=str_replace("}" , "</b>", $bio);
+		echo " <span id='cap'>$bio[0]</span>";
+		echo substr($bio,1);
+	}
+	else echo "No Bio";
 }
 
 function printinfo()
@@ -322,52 +322,52 @@ function printinfo()
     if (!isset($x[1]) || !strlen($x[1])) continue;
     $x[1]=str_replace("," , ", ", $x[1]);
     if ($x[0]=="Decades") {
-      $decs=explode("@",$x[1]);
-      echo "<b>$x[0]:</b>";
-      for ($di=0,$decade=10;$di<count($decs);$di++,$decade+=10) {
+        $decs=explode("@",$x[1]);
+        echo "<b>$x[0]:</b>";
+        for ($di=0,$decade=10;$di<count($decs);$di++,$decade+=10) {
 	$decade=sprintf("%02d",$decade%100);
-        if ($decs[$di]) echo $decade."'s, "; 
+          if ($decs[$di]) echo $decade."'s, "; 
       }
-      echo "<br>";
+        echo "<br>";
     }//decades
     else
-      echo "<b>$x[0]:</b>".$x[1]."<br>";
+        echo "<b>$x[0]:</b>".$x[1]."<br>";
    }
   fclose($fp);
 }
 
 function makeartistphotoarray()
 {
-  global $folderimages,$photoidx,$path,$allfiles;
+	global $folderimages,$photoidx,$path,$allfiles;
 
-  if (!count($folderimages)) return;
-  echo "\n<script>\nPictures = new Array(";
-  for ($i=0;$i<$photoidx;$i++) {
-    $p=$allfiles["fname"][$folderimages[$i]];
-    $url="?path=".urlencode($path)."&file=$p&action=sendfile";
-    if ($i>0) echo ",\n";
-    echo "\"$url\"";
-  }
-  echo ");\n</script>\n\n";
+	if (!count($folderimages)) return;
+	echo "\n<script>\nPictures = new Array(";
+	for ($i=0;$i<$photoidx;$i++) {
+		$p=$allfiles["fname"][$folderimages[$i]];
+		$url="?path=".urlencode($path)."&file=$p&action=sendfile";
+		if ($i>0) echo ",\n";
+		echo "\"$url\"";
+	}
+	echo ");\n</script>\n\n";
 }
 
 
 //get album photos of subdirectories
 function get_subdirimages()
 {
-  global $nd, $alldirs,$path;
-  $subdirimages=array();
+	global $nd, $alldirs,$path;
+	$subdirimages=array();
 
-  for ($i=1;$i<$nd;$i++) {
-    $p=$alldirs[$i]."/00photo.jpg";
-    if (file_exists($p)){
-      $url="?path=".urlencode($path)."&file=".urlencode($p)."&action=sendfile";
-      $dirurl="?path=".urlencode($path."/".$alldirs[$i]);
-      $subdirimages[]="<a href='$dirurl'><img height=100 width=100 src='$url'></a>";
-      //if (!($i % 8)) echo "<br>";
-    }
-  }
-  return $subdirimages;
+	for ($i=1;$i<$nd;$i++) {
+		$p=$alldirs[$i]."/00photo.jpg";
+		if (file_exists($p)){
+			$url="?path=".urlencode($path)."&file=".urlencode($p)."&action=sendfile";
+			$dirurl="?path=".urlencode($path."/".$alldirs[$i]);
+			$subdirimages[]="<a href='$dirurl'><img height=100 width=100 src='$url'></a>";
+			//if (!($i % 8)) echo "<br>";
+		}
+	}
+	return $subdirimages;
 
 }
 

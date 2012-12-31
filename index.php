@@ -176,6 +176,10 @@ if (1||isset($_GET['debug'])) {
 	echo "\nwscriptdir=$wscriptdir";
 	echo "\nservername=$servername";
 	echo "\nmclass=\n".print_r($mclass); echo "END";
+	echo "pwd:".getcwd();
+	echo "<br>PP: $pathprefix";
+	echo "<br>PA: $path";
+	echo "<br>BN: ".basename($path."/");
 	echo "</pre>";
 }
 

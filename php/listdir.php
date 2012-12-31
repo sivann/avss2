@@ -1,29 +1,27 @@
 <?php
+require($head);
+
 gotopath($path);
 readdirfiles(); //read&parse all files
 makeartistphotoarray(); //fill-in javascript photo table
 
-
-echo "<!--\n   (c) sivann 2003-2012 \n-->\n";
-echo "<html>\n<head>\n";
-echo "<meta HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n";
-echo "<title>AudioPlayer :: $path</title>\n";
+echo "<title>AudioPlayer :: ".basename($path)."</title>\n";
 ?>
 
 </head>
 <body>
 
-<div style='width:1100px;'> <!--outer -->
+<div id='outer'> <!--outer -->
 
-<div style='float:right;width:805px; border:2px solid gray;'> <!-- main div -->
+<div id='main' >
 
-<div style='float:left;width:800px; max-height:500px;overflow:auto; border:1px solid green;'>
+<div id='directories' >
+
+<div class='toplink'>
+<a href="<?=$SCRIPT_NAME?>?action=listdir&amp;path=/">Top</a>
+</div>
+
 <?
-// print top link
-echo "<div style='float:left;clear:both'>";
-echo "<a href=\"$SCRIPT_NAME?action=listdir&amp;path=/\">Top</a>";
-echo "</div>\n";
-
 // print directories
 for ($i=0;$i<$nd;$i++) {
   if ($i%2) $col="#efefef"; else $col="#fefefe";
@@ -36,7 +34,7 @@ for ($i=0;$i<$nd;$i++) {
 
   $lnk=preg_replace("@/+@" , "/", $lnk);
 
-  echo "<div style='float:left;clear:both'>";
+  echo "<div class='dir_row'>";
   echo "<a href=\"$lnk\">";
   if ($alldirs[$i]=="..") 
     echo "<img border=0 src=\"/icons/small/back.gif\">&nbsp;";
@@ -51,7 +49,9 @@ for ($i=0;$i<$nd;$i++) {
 ?>
 </div>
 
-<div style='float:left;width:800px; max-height:500px;overflow:auto; border:1px solid blue;'>
+
+
+<div id='files' >
 
 <?
 // print files
@@ -98,10 +98,10 @@ for ($j=0;$j<$naf;$j++) {
   else
     $bpsstr="";
 
-  echo "<div style='float:left;clear:both;background-color:$col'>";
+  echo "<div class='file_row'>";
 
   //save icon
-  echo "<div style='float:left;width:25px'>";
+  echo "<div class='file_save'>";
   echo "<a href=\"?path=".urlencode($path).
     "&action=savefile".
     "&file=".urlencode($allfiles["fname"][$j])."\">".
@@ -109,7 +109,7 @@ for ($j=0;$j<$naf;$j++) {
   echo "</div>\n";
 
   //view/play icon
-  echo "<div style='float:left;width:25px'>";
+  echo "<div class='file_play'>";
   if ($isaudio) {
     echo "<a href=\"$basem3u?path=".urlencode($path).
       "&action=sendm3u".
@@ -128,7 +128,7 @@ for ($j=0;$j<$naf;$j++) {
 
 
   //view/play named link
-  echo "<div style='float:left;width:500px;'>";
+  echo "<div class='file_name'>";
   echo $allfiles["fname"][$j];
   echo "</div>\n";
 
@@ -138,61 +138,64 @@ for ($j=0;$j<$naf;$j++) {
   else
     $duration="";
 
-  echo "<div style='float:left;width:80px'>";
+  echo "<div class='file_length'>";
   echo $duration.(int)($size/(1024*1024))."Mb </td>";
   echo "</div>\n";
 
-  echo "<div style='float:left;width:100px'>";
+  echo "<div class='file_bitrate'>";
   echo $bpsstr;
   echo "</div>\n";
 
-  echo "</div>\n\n";
+  echo "</div>\n\n"; //file row
 
 } //for (print files)
 
 ?>
 </div>
 
+
+
+
 <?
 $time_end = microtime_float();
 $time_elapsed = round($time_end - $time_start, 3);
 ?>
 
-<div style='float:left;width:800px; max-height:50px; border:1px solid red;'>
+<div id='files_toolbar'>
 
-  <div style='float:left;margin-right:10px;'>
-    <div style='width:50px;clear:both;text-align:center'>
+  <div class='toolbar_item'>
+    <div >
       <?  echo "<a href='$basem3u?path=".urlencode($path)."&action=playdir'><img src='$icon_playall' title='Play Dir'></a>"; ?>
     </div>
-    <div style='width:50px;clear:both;text-align:center;'>
+    <div >
       <span><?  echo "<a class='smaller' href='$basem3u?path=".urlencode($path)."&action=playdir'>Play All</a>"; ?></span>
     </div>
   </div>
 
-  <div style='float:left;margin-right:10px;'>
-    <div style='width:50px;clear:both;text-align:center'>
+  <div class='toolbar_item'>
+    <div >
       <?  echo "<a href='$basem3u?path=".urlencode($path)."&action=savedir'><img src='$icon_savedir' title='Get Files'></a>"; ?>
     </div>
-    <div style='width:50px;clear:both;text-align:center;'>
+    <div >
       <span><?  echo "<a class='smaller' href='$basem3u?path=".urlencode($path)."&action=savedir'>Get Files</a>"; ?></span>
     </div>
   </div>
 
 
-  <div style='float:left;margin-right:10px;'>
-    <div style='width:50px;clear:both;text-align:center'>
+  <div class='toolbar_item'>
+    <div >
       <?  echo "<a href='playlist.php'><img src='$icon_playlist' title='Open Playlist'></a>"; ?>
     </div>
-    <div style='width:50px;clear:both;text-align:center;'>
+    <div >
       <span><?  echo "<a class='smaller' href='playlist.php'>Playlist</a>"; ?></span>
     </div>
   </div>
 
-  <div style='float:left;margin-right:10px;'>
-    <div style='width:50px;clear:both;text-align:center'>
+  <div class='toolbar_item'>
+    <div >
       <?  echo "<a href='fnfix/fnfix.php?action=listdir&amp;path=".urlencode($pathprefix.$path)."'><img src='$icon_tools' title='Fix Filenames'></a>"; ?>
     </div>
-    <div style='width:50px;clear:both;text-align:center;'>
+    <div >
       <span><?  echo "<a class='smaller' href='fnfix/fnfix.php?action=listdir&amp;path=".urlencode($pathprefix.$path)."'>Fix</a>"; ?></span>
     </div>
   </div>
@@ -201,7 +204,7 @@ $time_elapsed = round($time_end - $time_start, 3);
 </div>
 
 
-<div style='float:left;width:800px; max-height:300px;overflow:auto; border:1px solid pink;'>
+<div class='album_dirs'>
 <?
 
 //print album dirs here
@@ -218,20 +221,22 @@ if (($x[1]=="permanent") && (count($x)==4)){
 </div>
 
 
-<div style='float:left;width:800px; max-height:400px;overflow:auto; border:1px solid orange;'>
+<div class='bio' >
 <?  printbio(); ?>
 </div>
 
 </div><!-- main div -->
 
-<div style='float:left;width:250px;border:2px solid red'> <!-- narrow column -->
 
-  <div style='float:left;width:100%; max-height:250px;overflow:auto; border:1px solid skyblue;'>
+
+<div id='datacontainer'> 
+
+  <div id='folder_images' >
   <?  printfolderimages(); ?>
   </div>
 
 
-  <div style='float:left;width:100%; max-height:850px;overflow:auto; border:1px solid lightgreen;'>
+  <div id='artistinfo' >
   <?
   //info column (genre, etc)
   printinfo();
@@ -241,14 +246,6 @@ if (($x[1]=="permanent") && (count($x)==4)){
 
 </div> <!--outer -->
 
-<div style='float:left;clear:both;border:1px solid #888;'>>
-<?
-echo getcwd();
-echo "<br>PP: $pathprefix";
-echo "<br>PA: $path";
-echo "<br>BN: ".basename($path."/");
-?>
-</div>
 
 
 </body>
