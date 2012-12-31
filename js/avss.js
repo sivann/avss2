@@ -1,5 +1,4 @@
-<script>
- var pmode=0; var pwind;
+var pmode=0; var pwind;
 var currimg=0;
  function playlist() {
    if (pmode==0 || pwind.closed==true) {
@@ -43,12 +42,8 @@ function nextimage() {
 }
 
 function showimage(imgno) {
-  //x1 = document.getElementById('photolink');
-  //x1.href=Pictures[imgno];
   x2 = document.getElementById('photoimg');
   x2.src=Pictures[imgno];
   currimg=imgno
 }
-
-</script>
 

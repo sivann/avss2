@@ -6,7 +6,7 @@
 ini_set('session.gc_maxlifetime', 36000);
 session_start(); 
 
-require 'init.php';
+require 'php/avssinit.php';
 $initok=1;
 
 //require ("php/model.php");
@@ -19,15 +19,18 @@ else {
   $_GET['action']=str_replace(";","",$_GET['action']);
 }
 
+if (!isset($_GET['path'])) {
+	$_SESSION['path']=$_GET['path'];
+}
 
 $head="";
 $req="";
 
+$authstatus=1;
+
 /*
 $authstatus=1;
 $_SESSION['loggedin']=1;
-$_SESSION['buildingid']=123;
-$_SESSION['usrbuildingid']=31 ;
 $_SESSION['username']='sivann' ;
 $_SESSION['userid']=8 ;
 $_SESSION['time']=1356355855 ;
@@ -96,6 +99,18 @@ switch ($_GET['action']) {
     }
     break;
 
+  case "listdir":
+    if ($authstatus) {
+      $req="php/listdir.php";
+      $head="php/head.php";
+    }
+    else { //not logged-in
+      $req="php/home.php";
+      $head="php/headhome.php";
+    }
+    break;
+
+
 
   case "login":
     $title="login";
@@ -103,7 +118,7 @@ switch ($_GET['action']) {
 	if (isset($_POST['username']))
 		$authmsg=authuser();
     if ($authstatus) {
-      header("Location: $fscriptname?action=listbuildings");
+      header("Location: $fscriptname?action=listdir");
 	  exit;
     }
     else { //not logged-in
@@ -121,9 +136,10 @@ switch ($_GET['action']) {
 	exit;
     break;
 
+
   default:
     if ($authstatus) {
-		  header("Location: $fscriptname?action=home");
+		  header("Location: $fscriptname?action=listdir");
 		  exit;
     }
 	else {
@@ -137,11 +153,12 @@ switch ($_GET['action']) {
 
 require_once($req);
 
-if (isset($_GET['debug'])) {
+if (1||isset($_GET['debug'])) {
 	echo "\n<button id='showdbgbtn' type='button'>debug info</button>";
-	echo "\n<pre id='debugpre' style='display:none'>";
+	echo "\n<pre id='debugpre' xstyle='display:none'>";
 	echo "\nauthstatus=$authstatus";
 	echo "\ndberr($errorno):$errorstr \n $errorbt\n"; echo "";
+	echo "\nget:\n"; print_r($_GET); echo "";
 	echo "\nsession:\n"; print_r($_SESSION); echo "";
 	echo "\ncookies:\n"; print_r($_COOKIE); echo "";
 	echo "err:\n"; print_r($errorstr); echo "";
