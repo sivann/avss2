@@ -1,0 +1,18 @@
+#display album cover inside album folder (now only shown outside)
+#download all (in folder)
+#link to fnfix & fix fnfix to work
+
+#-seek in winamp 
+-sessions/authentication
+-unify with playlist manager
+-fix playlist
+-fix fnfix auth
+
+-script to add stuff to sqlite
+-sqlite avss2 interfacing 
+-navigate things like in itunes
+
+-permanent letters oxi sth seira
+-better layout
+-mpc handling
+-flac handling
