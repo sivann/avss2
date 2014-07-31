@@ -47,10 +47,31 @@ body {
 	height:auto;
 }
 
+
 #main {
-	float:right;
+	float:left;
 	width:805px; 
+	overflow:auto;
+	margin-left:15px;
 }
+
+#container1 {
+	float:left;
+	overflow:auto;
+	width:250px;
+}
+
+#container2 {
+	float:right;
+	margin-left:10px;
+	width:150px;
+	overflow:auto;
+	background-color: #222326;
+}
+
+
+
+
 
 #curdir {
 	width:100%;
@@ -216,19 +237,30 @@ body {
 	background-color:#222326;
 }
 
+.content_box {
+	width:100%; 
+	padding:5px;
+	overflow:auto; 
+	background-color:#222326;
+	margin-bottom:5px;
+}
 
-#datacontainer {
-	float:left;
-	width:250px;
-	background-color: #222326;
+.content_boxtitle {
+	color:#d3d3d3;
+	font-variant:small-caps;
+	margin-bottom:10px;
+	overflow:auto;
+	height:30px;
+}
+
+.content_boxtitle span{
+	border-bottom:2px solid #84bd00;
+	font-size:17px;
+	font-family:'Trebuchet' ,'Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 
 #folder_images {
-	width:100%; 
-	padding:5px;
-	height:280px;
-	overflow:auto; 
-	border-bottom: 3px solid #121314;
+	height:320px;
 }
 
 #folder_images img{
@@ -236,12 +268,8 @@ body {
 	max-width:240px;
 }
 
-
 #artistinfo {
-	width:100%; 
 	max-height:850px;
-	overflow:auto; 
-	padding:5px;
 
 }
 

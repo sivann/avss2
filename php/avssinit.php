@@ -12,22 +12,6 @@ if (isset($_GET['path'])) $path=$_GET['path'];
 if (isset($_GET['playdir'])) $playdir=$_GET['playdir'];
 
 
-/*
-$lsaudio="/usr/local/bin/lsaudio";
-$ls="/bin/ls";
-
-$pathprefix="/MMROOT/audio/";
-$icon_generic="/avss2/images/unknown.png";
-$icon_audio="/avss2/images/play.png";
-$icon_save="/avss2/images/download_m.png";
-$icon_image="/avss2/images/image.png";
-$icon_playall="/avss2/images/play32.png";
-$icon_savedir="/avss2/images/folder_down.png";
-$icon_dir="/avss2/images/folder_green.png";
-$icon_playlist="/avss2/images/playlist.png";
-$icon_tools="/avss2/images/fix.png";
-*/
-
 if (!isset($sess)) $sess="";
 $basem3u="http://".$SERVER_NAME.$SCRIPT_NAME."/stream.m3u";
 $userdir=$avssdir."/data/ipz/".$sess;
