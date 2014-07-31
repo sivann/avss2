@@ -12,6 +12,7 @@ if (isset($_GET['path'])) $path=$_GET['path'];
 if (isset($_GET['playdir'])) $playdir=$_GET['playdir'];
 
 
+/*
 $lsaudio="/usr/local/bin/lsaudio";
 $ls="/bin/ls";
 
@@ -25,6 +26,7 @@ $icon_savedir="/avss2/images/folder_down.png";
 $icon_dir="/avss2/images/folder_green.png";
 $icon_playlist="/avss2/images/playlist.png";
 $icon_tools="/avss2/images/fix.png";
+*/
 
 if (!isset($sess)) $sess="";
 $basem3u="http://".$SERVER_NAME.$SCRIPT_NAME."/stream.m3u";
@@ -38,6 +40,7 @@ if (!isset($path) || empty($path)) $path="/";
 else if (strstr($path,"..")) $path="/";
 $path=str_replace("\'" , "'", $path);
 $path=preg_replace("@/+@" , "/", $path);
+$path = rtrim($path, '/');
 
 if(get_magic_quotes_gpc()) {echo "Please disable magic quotes in .ini";}
 

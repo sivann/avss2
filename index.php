@@ -153,7 +153,7 @@ switch ($_GET['action']) {
 
 require_once($req);
 
-if (1||isset($_GET['debug'])) {
+if (isset($_GET['debug'])) {
 	echo "\n<button id='showdbgbtn' type='button'>debug info</button>";
 	echo "\n<pre id='debugpre' xstyle='display:none'>";
 	echo "\nauthstatus=$authstatus";
@@ -164,7 +164,7 @@ if (1||isset($_GET['debug'])) {
 	echo "err:\n"; print_r($errorstr); echo "";
 	echo "\n"; print_r($errorbt); echo "";
 	echo "request:\n"; print_r($_REQUEST); echo "";
-	echo "challenge:\n";echo challengeofsession(session_id())."";
+	//echo "challenge:\n";echo challengeofsession(session_id())."";
 	echo "post:\n"; print_r($_POST); echo "";
 	echo "\nsession timeout:".  ini_get(’session.gc_maxlifetime’);
 	echo "\ncookie timeout:".  ini_get(’session.cookie_lifetime’);
@@ -175,7 +175,8 @@ if (1||isset($_GET['debug'])) {
 	echo "\nfscriptname=$fscriptname";
 	echo "\nwscriptdir=$wscriptdir";
 	echo "\nservername=$servername";
-	echo "\nmclass=\n".print_r($mclass); echo "END";
+	echo "\nmclass=".print_r($mclass); 
+	echo "\ndirinfo=".print_r($dirinfo); 
 	echo "pwd:".getcwd();
 	echo "<br>PP: $pathprefix";
 	echo "<br>PA: $path";

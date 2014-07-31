@@ -1,0 +1,4 @@
+#!/bin/sh 
+basepath="/home/www/htdocs/avss2/"
+cd /MMROOT/audio 
+/usr/bin/find . -follow -xtype f -maxdepth 15 \( -regex '.*\.mp3$' -o -regex '.*ogg' -o -regex '.*mpc' -o -regex '.*m4a' -o -regex '.*mp4' -o -regex '.*flac' \) -print >$basepath/data/tracks.txt 2>/dev/null

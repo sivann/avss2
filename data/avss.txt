@@ -1,0 +1,60 @@
+create table artist (
+  id int primary key,
+  directory text,
+  born text,
+  formed text,
+  disbanded text,
+  members text,
+  seealso text,
+  followers text,
+  influencedby text,
+  similar text,
+  biography text,
+  aka text,
+  discography text,
+  name text,
+  image_filenames text
+);
+
+create table decade (
+  decade int primary key,
+  artistid id, 
+  FOREIGN KEY(artistid) REFERENCES artist(id)
+);
+
+create table style (
+  id int primary key,
+  name text
+);
+
+create table artist_style (
+  artistid int,
+  styleid int,
+  FOREIGN KEY(artistid) REFERENCES artist(id)  ,
+  FOREIGN KEY(styleid) REFERENCES style(id)  
+);
+
+
+create table stylevector (artist blob); 
+insert into stylevector(artist) values ('00010');
+...
+select artist & '10011', length(replace( artist & '10011','0','')) as weight from stylevector;
+
+
+create table track (
+  id int primary key,
+  mtime int,
+  filename text unique,
+  directory text,
+  albumid integer,
+  FOREIGN KEY(albumid) REFERENCES album(id)
+);
+
+create table album (
+  id int primary key,
+  directory text unique,
+  year int,
+  rating int,
+  image_filenames text
+);
+

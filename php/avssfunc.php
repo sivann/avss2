@@ -1,5 +1,89 @@
 <?
 
+function parsepath($path) {
+	global $pathprefix;
+	$x=explode("/",$path); 
+
+	//defaults
+	$dirinfo=array(
+	'isletterslist'=>0,
+	'isletterlist'=>0,
+	'iscollectionlist'=>0,
+	'iscollection'=>0,
+	'isartist'=>0,
+	'isalbum'=>0,
+	'datapath'=>'',
+	'issoundtrack'=>0
+	);
+
+
+	if (is_dir($pathprefix.$path)) {
+		//$after: part after /artists/
+
+		if ($apos=strpos($path,"/artists")) {
+			$after=substr($path,$apos+strlen("/artists"));
+			$after=ltrim($after,"/");
+			$after_r=explode("/",$after);
+
+			if (strlen($after)==0) { // artist
+				$dirinfo['isletterslist']=1;
+			}
+			elseif (count($after_r)==1) { // A
+				$dirinfo['isletterlist']=1;
+			}
+			elseif (count($after_r)==2) { // A/abba
+				$dirinfo['isartist']=1;
+				$dirinfo['datapath']=$path;
+			}
+			elseif (count($after_r)==3) { // A/abba/album
+				$dirinfo['isalbum']=1;
+				$dirinfo['datapath']=dirname($path);
+			}
+		}
+		elseif ($apos=strpos($path,"/collections")) {
+			$after=substr($path,$apos+strlen("/collections"));
+			$after=ltrim($after,"/");
+			$after_r=explode("/",$after);
+
+			if (strlen($after)==0) { // collections
+				$dirinfo['iscollectionlist']=1;
+			}
+			elseif (count($after_r)==1) { // collectionname
+				$dirinfo['iscollection']=1;
+				$dirinfo['datapath']=$path;
+			}
+			elseif (count($after_r)==2) { // collectionname/disk1
+				$dirinfo['iscollection']=1;
+				$dirinfo['datapath']=dirname($path);
+			}
+
+		}
+		elseif ($apos=strpos($path,"/soundtracks")) {
+			$after=substr($path,$apos+strlen("/soundtracks"));
+			$after=ltrim($after,"/");
+			$after_r=explode("/",$after);
+
+			if (strlen($after)==0) { // collections
+				$dirinfo['iscollectionlist']=1;
+			}
+			elseif (count($after_r)==1) { // collectionname
+				$dirinfo['iscollection']=1;
+				$dirinfo['datapath']=$path;
+			}
+			elseif (count($after_r)==2) { // collectionname/disk1
+				$dirinfo['iscollection']=1;
+				$dirinfo['datapath']=dirname($path);
+			}
+
+		}
+
+	}
+
+
+	return $dirinfo;
+
+}
+
 function isexpired($userdir)
 {
   
@@ -27,9 +111,10 @@ function printfolderimages() {
   $p0=$allfiles["fname"][$folderimages[0]];
   $url="?path=".urlencode($path)."&file=".urlencode($p0)."&action=sendfile";
   echo "\n<img id='photoimg' src='$url'><br>";
-  for ($i=0;$i<$photoidx;$i++) {
-    echo "\n<a href='javascript:showimage(\"$i\");'>$i</a>";
-  }
+  if ($photoidx>1)
+	  for ($i=0;$i<$photoidx;$i++) {
+		echo "\n<a class='badge' href='javascript:showimage(\"$i\");'>$i</a>";
+	  }
 
 }
 
@@ -205,7 +290,7 @@ function sendm3u()
 //streaming - send all playable files in extended m3u format
 function senddirm3u()
 {
-  global $path,$pathprefix,$SERVER_NAME,$SCRIPT_NAME,$ls;
+  global $path,$pathprefix,$SERVER_NAME,$SCRIPT_NAME,$ls,$lsaudio;
 
   if (!chdir($pathprefix.$path)) {
     echo "Err:C1:<b>chdir \"$pathprefix.$path\" failed</b><br>";
@@ -214,14 +299,20 @@ function senddirm3u()
   header ("Content-type: audio/mpeg-url");
   echo "#EXTM3U\n";
 
-  $fp = popen ($ls, "r");
+  //$fp = popen ($ls, "r");
+  $fp = popen ($lsaudio, "r");
+
   while ($buffer = fgets($fp, 1024)) {
     $buffer=rtrim($buffer);
-    if (!preg_match("#\.(mp3|ogg|mpc)$#i",$buffer)) continue;
+	$row=explode("/",$buffer);
+	if (is_numeric($row[2])) {
+		$secs=$row[2]*60+$row[3];
+	}
+    if (!preg_match("#\.(mp3|ogg|mpc)$#i",$row[6])) continue;
 
-    $url="?path=".rawurlencode($path)."&file=".rawurlencode($buffer)."&action=sendfile";
+    $url="?path=".rawurlencode($path)."&file=".rawurlencode($row[6])."&action=sendfile";
 
-    echo "#EXTINF:, $buffer\n"; //format: #EXTINF - extra info - length (seconds), title
+    echo "#EXTINF:$secs,$row[6]\n"; //format: #EXTINF - extra info - length (seconds), title
     echo "http://".$SERVER_NAME.$SCRIPT_NAME.$url;
     echo "\n\n";
   }
@@ -248,6 +339,7 @@ function readdirfiles()
 	global $lsaudio,$alldirs,$nd,$allfiles,$naf;
 	global $bioidx,$infoidx,$folderimages,$photoidx;
 	global $icon_generic, $icon_audio, $icon_image;
+
 	$photoidx=0;
 
 	$fp = popen ("$lsaudio", "r");
@@ -297,21 +389,25 @@ function readdirfiles()
 	pclose($fp);
 }
 
-function printbio()
+
+function printbio($path)
 { 
-	global $bioidx,$allfiles;
+	global $bioidx,$allfiles,$pathprefix;
+
 	if (isset($bioidx)) {
-		//readfile($allfiles["fname"][$bioidx]);
 		$bio=file_get_contents($allfiles["fname"][$bioidx]);
-		$bio=str_replace("{" , "<b>", $bio);
-		$bio=str_replace("}" , "</b>", $bio);
-		echo " <span id='cap'>$bio[0]</span>";
-		echo substr($bio,1);
 	}
-	else echo "No Bio";
+	else {
+		$files = glob($pathprefix.$path.'/.*.bio', GLOB_BRACE);
+		$bio=file_get_contents($files[0]);
+	}
+	$bio=str_replace("{" , "<b>", $bio);
+	$bio=str_replace("}" , "</b>", $bio);
+	echo " <span id='cap'>$bio[0]</span>";
+	echo substr($bio,1);
 }
 
-function printinfo()
+function printArtistInfo()
 {
   global $infoidx,$allfiles;
   if (!isset($infoidx)) return;
@@ -323,15 +419,16 @@ function printinfo()
     $x[1]=str_replace("," , ", ", $x[1]);
     if ($x[0]=="Decades") {
         $decs=explode("@",$x[1]);
-        echo "<b>$x[0]:</b>";
+        echo "<b>$x[0]:</b> ";
         for ($di=0,$decade=10;$di<count($decs);$di++,$decade+=10) {
-	$decade=sprintf("%02d",$decade%100);
-          if ($decs[$di]) echo $decade."'s, "; 
-      }
+			$decade=sprintf("%02d",$decade%100);
+            if ($decs[$di]) 
+				echo $decade."'s, "; 
+        }
         echo "<br>";
     }//decades
     else
-        echo "<b>$x[0]:</b>".$x[1]."<br>";
+        echo "<p><b>$x[0]:</b> ".$x[1]."<br></p>";
    }
   fclose($fp);
 }
@@ -359,15 +456,45 @@ function get_subdirimages()
 	$subdirimages=array();
 
 	for ($i=1;$i<$nd;$i++) {
+		if ($alldirs[$i]=="..") 
+			continue;
+		$dirurl="?action=listdir&amp;path=".urlencode($path."/".$alldirs[$i]);
 		$p=$alldirs[$i]."/00photo.jpg";
 		if (file_exists($p)){
-			$url="?path=".urlencode($path)."&file=".urlencode($p)."&action=sendfile";
-			$dirurl="?path=".urlencode($path."/".$alldirs[$i]);
-			$subdirimages[]="<a href='$dirurl'><img height=100 width=100 src='$url'></a>";
-			//if (!($i % 8)) echo "<br>";
+			$img="<img class='th_albumimg' src='?path=".urlencode($path)."&file=".urlencode($p)."&action=sendfile'>";
+
 		}
+		else {
+			//$img=$alldirs[$i];
+			$img="<img class='th_albumimg' src='images/noalbumart.png'>";
+		}
+
+		$block="\n<div class='th_album'>";
+		$block.="<div class='th_albumimgcontainer'>$img</div>";
+		$block.="<div class='th_albumtitle'>{$alldirs[$i]}</div>";
+		$block.="</div>\n";
+
+		$subdirimages[]="<a title='".$alldirs[$i]."' class='albumlink' href='$dirurl'>$block</a>";
 	}
 	return $subdirimages;
+
+}
+
+function path2uris($path) {
+	$path_parts = pathinfo($path);
+	$xp=explode ("/",$path);
+	$uriprefix="$SCRIPT_NAME?action=listdir&amp;path=";
+	$uris=array();
+	$prevpath="";
+
+	array_push($uris,array('uri'=>$uriprefix."/",'name'=>"<span class='glyphicon glyphicon-home icon-home'></span>"));
+	foreach ($xp as $p) {
+		if (!strlen($p)) continue;
+		$prevpath.="/".$p;
+		$uri=$uriprefix.urlencode($prevpath);
+		array_push($uris,array('uri'=>$uri,'name'=>$p));
+	}
+	return $uris;
 
 }
 
@@ -383,6 +510,22 @@ function cutlast($path)
   else 
     return ""; // no path components
 
+}
+
+//normalize /.././.// in path
+function pathnorm($path) {
+	$path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+	$parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
+	$absolutes = array();
+	foreach ($parts as $part) {
+		if ('.' == $part) continue;
+		if ('..' == $part) {
+			array_pop($absolutes);
+		} else {
+			$absolutes[] = $part;
+		}
+	}
+	return implode(DIRECTORY_SEPARATOR, $absolutes);
 }
 
 ?>

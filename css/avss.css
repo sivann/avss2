@@ -8,7 +8,8 @@
 * {
   font-family: Arial;
   font-size: 10pt;
-  }
+  box-sizing: border-box;
+}
 
 .small {
   font-size:0.9em;
@@ -26,12 +27,19 @@ div {
 
 a {
   text-decoration: none;
+  color:#eee;
 }
 
 a:hover {
   text-decoration: underline;
+  color:white;
 }
 
+
+body {
+	background-color:#121314;
+	color:white;
+}
 
 #outer {
 	width:1100px;
@@ -42,15 +50,24 @@ a:hover {
 #main {
 	float:right;
 	width:805px; 
-	border:2px solid gray;
+}
+
+#curdir {
+	width:100%;
+	min-height:30px;
+	padding:5px;
+	overflow:auto; 
+	background-color:#222326;
+	margin-top:10px;
+	margin-bottom:10px;
+
 }
 
 #directories {
-	float:left;
-	width:800px; 
+	width:100%;
 	max-height:500px;
 	overflow:auto; 
-	border:1px solid green;
+	border-bottom:2px solid #222326;
 }
 
 .dir_row {
@@ -59,17 +76,16 @@ a:hover {
 }
 
 .toplink {
-	border:3px solid orange;
 	float:left;
-	clear:both
+	clear:both;
+	margin-bottom:10px;
 }
 
 #files {
-	float:left;
-	width:800px; 
+	width:100%;
 	max-height:500px;
 	overflow:auto; 
-	border:1px solid blue;
+	margin-top:10px;
 }
 
 .file_row {
@@ -80,7 +96,6 @@ a:hover {
 
 .file_save, .file_play {
 	float:left;
-	width:25px
 }
 
 
@@ -99,11 +114,39 @@ a:hover {
 	width:100px;
 }
 
+.bitrate_vbr {
+	background-color:#8DCAA1;
+	color:black;
+}
+.bitrate_1 {
+	background-color:#664242;
+	color:#eee;
+}
+.bitrate_2 {
+	background-color:#5BBDFF;
+	color:black;
+}
+.bitrate_3 {
+	background-color:lightgreen;
+	color:black;
+}
+.bitrate_4 {
+	background-color:orange;
+	color:black;
+}
+.bitrate_5 {
+	background-color:pink;
+	color:black;
+}
+
+
 #files_toolbar {
-	float:left;
-	width:800px; 
-	max-height:50px; 
-	border:1px solid red;
+	width:100%;
+	margin-top:20px;
+	overflow:auto;
+	background:#222326;
+	padding:5px;
+	border-radius:3px;
 }
 
 .toolbar_item {
@@ -130,35 +173,100 @@ a:hover {
 	border:1px solid pink;
 }
 
+#album_images {
+	width:100%;
+	margin-top:20px;
+	overflow:auto;
+}
+
+#album_images 	.th_album {
+	float:left;
+	margin-left:15px;
+}
+
+.th_albumtitle {
+	min-height:70px;
+	overflow:hidden;
+	color:#fff;
+	background-color:#222326;
+	width:100px;
+	width:100px;
+	padding:5px;
+}
+
+.th_albumimgcontainer {
+	height:100px;
+	width:100px;
+}
+
+
+.th_albumimg {
+	width:100px;
+	height:100px;
+}
+
+
 
 #bio {
-	float:left;
-	width:800px; 
+	padding:5px;
+	width:100%; 
 	max-height:400px;
 	overflow:auto; 
-	border:1px solid orange;
+	margin-top:25px;
+	background-color:#222326;
 }
 
 
 #datacontainer {
 	float:left;
 	width:250px;
-	border:5px solid #aaa;
+	background-color: #222326;
 }
 
 #folder_images {
-	float:left;
 	width:100%; 
-	max-height:250px;
+	padding:5px;
+	height:280px;
 	overflow:auto; 
-	border:1px solid skyblue;
+	border-bottom: 3px solid #121314;
+}
+
+#folder_images img{
+	height:230px;
+	max-width:240px;
 }
 
 
-#artist_info {
-	float:left;
+#artistinfo {
 	width:100%; 
 	max-height:850px;
 	overflow:auto; 
-	border:1px solid lightgreen;
+	padding:5px;
+
+}
+
+
+.icon-play {
+	color:rgb(124, 192, 255);
+	margin-right:5px;
+}
+
+.icon-download {
+	color:rgb(255, 102, 102);
+	margin-right:5px;
+}
+
+.icon-home {
+	color:#84BD00;
+}
+
+.icon-folder {
+	color:#84BD00;
+	margin-right:10px;
+}
+
+.icon-generic,
+.icon-image {
+	color:#B2C525;
+	margin-right:5px;
 }

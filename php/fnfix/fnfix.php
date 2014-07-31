@@ -95,6 +95,7 @@ if (!chdir($goto)) {
   echo "<b>cd \"$goto\" failed</b><br>";
   chdir($pathprefix);
   $path=$pathprefix;
+  exit;
 };
 
 if (!empty($photourl)) {
@@ -173,12 +174,11 @@ elseif (isset($formaction) && ($formaction=="renameall")) {
   }
 }
 
-$cmd="$avssdir/bin/lsaudio";
 
-$fp = popen ("$cmd", "r");
+$fp = popen ("$lsaudio", "r");
 $naf=0;
 while ($buffer = fgets($fp, 4096)) {
-  $x=explode("/",chop($buffer));
+  $x=explode("/",trim($buffer));
   $allfiles['type'][$naf]=$x[0];
   $allfiles["size"][$naf]=$x[1];
   $allfiles["mins"][$naf]=$x[2];
@@ -276,7 +276,7 @@ $wwwpath=$w;
 if (!strstr($w,"Incoming")) { $w="/permanent/$w";}
 
 //echo "[<a href=\"http://".$avsshost.$avsswwwdir."cgi-bin/avssmain.m3u?path=$wwwpath&amp;sess=$sess\">Back to Kronos</a>]  ";
-echo "[<a href=\"http://".$avsshost."/avss2/php/avss.php?path=$wwwpath\">Back to Kronos</a>]  ";
+echo "[<a href=\"http://".$avsshost."/avss2/?action=listdir&path=".($wwwpath)."\">Back to Site</a>]  ";
 
 $x=explode("/",$path);
 $cx=count($x);
@@ -296,11 +296,11 @@ for ($i=0;$i<$nd;$i++) {
   if ($dirs[$i]==".") continue;
   echo "<tr><td bgcolor=$col colspan=4>".
        "<a style=\"text-decoration: none\" ".
-       "href=\"$PHP_SELF?sess=$sess&amp;path=".str_replace("%2F","/",urlencode(realpath("$path/$dirs[$i]")))."\">";
+       "href=\"$PHP_SELF?sess=$sess&amp;path=".str_replace("%2F","/",urlencode(realpath("$path/{$dirs[$i]}")))."\">";
   if ($dirs[$i]!="..") echo "<img align=absmiddle border=0 src=\"$avsswwwdir/images/folder_small.png\">&nbsp;";
   else echo "<img border=0 src=\"/icons/small/back.gif\">&nbsp;";
-  if ($dirs[$i]=="..")  echo "<b><big>$dirs[$i]</big></b></a>&nbsp;&nbsp;&nbsp;$hdr";
-  else echo "$dirs[$i]</a>";
+  if ($dirs[$i]=="..")  echo "<b><big>{$dirs[$i]}</big></b></a>&nbsp;&nbsp;&nbsp;$hdr";
+  else echo "{$dirs[$i]}</a>";
   echo "</td>\n" ;
 
   if ($dirs[$i]=="..") echo "<td bgcolor=$col>&nbsp;</td>";
@@ -308,7 +308,7 @@ for ($i=0;$i<$nd;$i++) {
   echo " <td bgcolor=$col>".
        "<a href=\"javascript:".
        "dirdel('$PHP_SELF?sess=$sess&amp;path=$path".
-       "&delete=rmrf:".basename($dirs[$i])."','$dirs[$i]')\">".
+       "&delete=rmrf:".basename($dirs[$i])."','{$dirs[$i]}')\">".
        "<img border=0 title=Delete src='$avsswwwdir/images/trash-icon.png'></a></td>";
        }
 
@@ -408,11 +408,11 @@ for ($af=0,$j=0;$j<$naf;$j++) { /*print files*/
 
   echo "<img border=0 src='$avsswwwdir/images/$img'></a></td>\n";
   echo "  <td width='20%'><input  class='itxt' readonly style='background-color:$col' type=text name=\"orgfile[]\" ".
-       " onmouseover=\"return overlib('$ID3s[$j]',RELX,-4,RELY,4,WIDTH,500)\" ".
+       " onmouseover=\"return overlib('{$ID3s[$j]}',RELX,-4,RELY,4,WIDTH,500)\" ".
        " onmouseout=\"return nd();\"".
        " value=\"".$allfiles["fname"][$j]."\"></td>\n";
   echo "  <td width='20%'><input  class='itxt' style='background-color:$col' type=text id=newf".($j-$nd)." name=\"newfile[]\" ".
-       " onmouseover=\"return overlib('$ID3s[$j]',RELX,-4,RELY,4,WIDTH,500)\" ".
+       " onmouseover=\"return overlib('{$ID3s[$j]}',RELX,-4,RELY,4,WIDTH,500)\" ".
        " onmouseout=\"return nd();\"".
        " value=\"";
   if ($isaudio) {
@@ -618,7 +618,7 @@ function actions($fn,$j,$af)
 echo "<table width='100%' cellspacing=0  cellpadding=2 >\n<tr><td width=60%>";
 
 echo "<b>Filename field Transformations (1-2-3.mp3):</b><br>";
-$where=urlencode("$path/$dirs[$i]");
+$where=urlencode("$path/{$dirs[$i]}");
 echo "<a href=\"$PHP_SELF?sess=$sess&amp;path=$where&trans=21\">[2-1]</a>\n";
 echo "<a href=\"$PHP_SELF?sess=$sess&amp;path=$where&trans=132\">[1-3-2]</a>&nbsp;\n";
 echo "<a href=\"$PHP_SELF?sess=$sess&amp;path=$where&trans=213\">[2-1-3]</a>&nbsp;\n";
