@@ -27,7 +27,9 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 		<div class='content_boxtitle'>
 			<span>Search</span>
 		</div>
-			<input class="form-control" placeholder="Search" id='searchbox'>
+			<div class="input-group input-group-sm">
+				<input class="form-control" placeholder="Search" id='searchbox'>
+			</div>
 		</div>
 
 		<div id='folder_images' class='content_box' >
