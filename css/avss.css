@@ -41,36 +41,6 @@ body {
 	color:white;
 }
 
-#outer {
-	width:1100px;
-	overflow:auto;
-	height:auto;
-}
-
-
-#main {
-	float:left;
-	width:805px; 
-	overflow:auto;
-	margin-left:15px;
-}
-
-#container1 {
-	float:left;
-	overflow:auto;
-	width:250px;
-}
-
-#container2 {
-	float:right;
-	margin-left:10px;
-	width:150px;
-	overflow:auto;
-	background-color: #222326;
-}
-
-
-
 
 
 #curdir {
@@ -229,24 +199,18 @@ body {
 
 
 #bio {
-	padding:5px;
-	width:100%; 
 	max-height:400px;
-	overflow:auto; 
-	margin-top:25px;
 	background-color:#222326;
 }
 
-.content_box {
-	width:100%; 
-	padding:5px;
-	overflow:auto; 
+.contentbox {
 	background-color:#222326;
-	margin-bottom:5px;
+	padding-bottom:15px;
 }
 
 .content_boxtitle {
 	color:#d3d3d3;
+	margin-top:10px;
 	font-variant:small-caps;
 	margin-bottom:10px;
 	overflow:auto;
@@ -270,7 +234,6 @@ body {
 
 #artistinfo {
 	max-height:850px;
-
 }
 
 
