@@ -1,11 +1,6 @@
 <?php
 require($head);
 
-gotopath($path);
-readdirfiles(); //read&parse files and dirs
-makeartistphotoarray(); //fill-in javascript photo table
-$dirinfo=parsepath($path);
-
 
 echo "<title>AudioPlayer :: ".basename($path)."</title>\n";
 ?>
@@ -69,7 +64,16 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 		</div> <!-- left col-->
 
 		<div id='maincol' class='col-xs-9'> <!-- main col -->
-			<?php require 'filebrowser_div_inc.php'; ?>
+			<?php 
+			switch ($mode) {
+				case 'filebrowser': 
+					require 'filebrowser_div_inc.php'; 
+					break;
+				default:
+					echo "Not implemented: $mode";
+					break;
+			}
+			?>
 		</div><!-- main col div -->
 
 	</div><!-- row -->

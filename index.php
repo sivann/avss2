@@ -101,7 +101,8 @@ switch ($_GET['action']) {
 
   case "listdir":
     if ($authstatus) {
-      $req="php/listdir.php";
+	  $mode = 'filebrowser';
+      $req="php/showmain.php";
       $head="php/head.php";
     }
     else { //not logged-in
@@ -109,6 +110,33 @@ switch ($_GET['action']) {
       $head="php/headhome.php";
     }
     break;
+
+  case "liststyles":
+    if ($authstatus) {
+	  $mode = 'stylebrowser';
+      $req="php/showmain.php";
+      $head="php/head.php";
+    }
+    else { //not logged-in
+      $req="php/home.php";
+      $head="php/headhome.php";
+    }
+    break;
+
+
+  case "listphotos":
+    if ($authstatus) {
+	  $mode = 'photobrowser';
+      $req="php/showmain.php";
+      $head="php/head.php";
+    }
+    else { //not logged-in
+      $req="php/home.php";
+      $head="php/headhome.php";
+    }
+    break;
+
+
 
 
 

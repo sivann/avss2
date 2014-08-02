@@ -1,4 +1,9 @@
-
+<?php
+gotopath($path);
+readdirfiles(); //read&parse files and dirs
+makeartistphotoarray(); //fill-in javascript photo table
+$dirinfo=parsepath($path);
+?>
 		<div id='filebrowser'>
 			<ol class='breadcrumb' id='curdir'>
 			<?php 
