@@ -17,7 +17,8 @@ if (isset($_GET['playdir'])) $playdir=$_GET['playdir'];
 
 
 if (!isset($sess)) $sess="";
-$basem3u="http://".$SERVER_NAME.$SCRIPT_NAME."/stream.m3u";
+//$basem3u="http://".$SERVER_NAME.$SCRIPT_NAME."/stream.m3u";
+$basem3u="http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u";
 $userdir=$avssdir."/data/ipz/".$sess;
 
 $datadir=$avssdir."/data";

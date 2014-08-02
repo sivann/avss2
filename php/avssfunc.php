@@ -600,6 +600,18 @@ function logerr($err) {
 }
 
 function track2lnk($track) {
+	global $basem3u;
+
+	$pathd=$pathprefix."/".$track['directory'];
+	$pathf=$pathprefix."/".$track['filename'];
+	$patha=$pathprefix."/".$track['directory']."/".$track['filename'];
+
+	$lnkf="$basem3u?path=".urlencode($pathd)."&action=sendm3u"."&file=".urlencode($pathf);
+	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
+
+	$lnk="<a href='$lnkd'>{$track['directory']}</a>/ ".
+		 "<a href='$lnkf'>{$track['filename']}</a>";
+	return $lnk;
 }
 
 
@@ -608,7 +620,7 @@ function showTrackResult($tracks) {
 	foreach ($tracks as  $idx=>$track) {
 		echo "\n";
 		echo "<tr><td>";
-		echo $track['filename'];
+		echo track2lnk($track);
 		echo "</td></tr>";
 	}
 	echo "</table>\n";
