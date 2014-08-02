@@ -1,5 +1,5 @@
 <?php
-$avssdir="/home/www/htdocs/avss/";
+$avssdir="/home/www/htdocs/avss2/";
 $avsswwwdir="/avss/";
 $avsshost=$_SERVER["HTTP_HOST"];
 $audioroot="/MMROOT/audio";

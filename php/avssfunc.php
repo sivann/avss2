@@ -533,4 +533,85 @@ function pathnorm($path) {
 	return implode(DIRECTORY_SEPARATOR, $absolutes);
 }
 
+//
+//$stmt=db_execute($dbh,$sql, array( 'code'=>$code));
+//$res=$stmt->fetch(PDO::FETCH_ASSOC);
+function db_execute($dbh,$sql,$params=array())
+{
+  global $errorstr,$errorbt,$errorno;
+
+  $sth = $dbh->prepare($sql);
+  $error = $dbh->errorInfo();
+
+  if(((int)$error[0]||(int)$error[1]) && isset($error[2])) {
+    $errorstr= "DB Error: ($sql): <br>\n".$error[2]."<br>\nParameters:".implode(",",$params);
+    $errorbt= debug_backtrace();
+    $errorno=$error[1]+$error[0];
+        logerr("$errorstr BACKTRACE:".$errorbt);
+    return 0;
+  }
+
+  if (count($params)) {
+	  $sth->execute($params);
+  }
+  else {
+	  $sth->execute();
+  }
+
+  $error = $sth->errorInfo();
+  if(((int)$error[0]||(int)$error[1]) && isset($error[2])) {
+    $errorstr= "DB Error: ($sql): <br>\n".$error[2]."<br>\nParameters:".implode(",",$params);
+    $errorbt= debug_backtrace();
+    $errorno=$error[1]+$error[0];
+        logerr("$errorstr BACKTRACE:".$errorbt);
+  }
+
+  return $sth;
+}
+
+
+//no prepare
+function db_exec($dbh,$sql,$skipauth=0,$skiphist=0,&$wantlastid=0) {
+global $authstatus,$userdata, $remaddr, $dblogsize,$errorstr,$errorbt;
+
+  if (!$skipauth && !$authstatus) {$errstr="<big><b>Not logged in</b></big><br>";return 0;}
+  if (stristr($sql,"insert ")) $skiphist=1; //for lastid function to work.
+
+  $r=$dbh->exec($sql);
+  $error = $dbh->errorInfo();
+  if($error[0] && isset($error[2])) {
+    $errorstr= "<br><b>db_exec:db Error: ($sql): ".$error[2]."<br></b>";
+    $errorbt = debug_backtrace();
+    logerr("$errorstr BACKTRACE:".$errorbt);
+    return 0;
+  }
+  $wantlastid=$dbh->lastInsertId();
+
+  return $r;
+} //db_exec
+
+function logerr($err) {
+        global $remaddr;
+        $browser=$_SERVER['HTTP_USER_AGENT'];
+        $phpbt=json_encode(debug_backtrace());
+
+        openlog("avss", LOG_PID|LOG_PERROR , LOG_LOCAL3);
+        syslog(LOG_INFO, "ERROR:$err, REMOTE_ADDRESS:$remaddr, BROWSER:$browser, PHPBACKTRACE:".$phpbt);
+}
+
+function track2lnk($track) {
+}
+
+
+function showTrackResult($tracks) {
+	echo "<table class='tbl'>";
+	foreach ($tracks as  $idx=>$track) {
+		echo "\n";
+		echo "<tr><td>";
+		echo $track['filename'];
+		echo "</td></tr>";
+	}
+	echo "</table>\n";
+}
+
 ?>

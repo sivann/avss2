@@ -28,17 +28,18 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 					</div>
 
 					<div class="input-group">
-					  <div class="input-group-btn">
-						<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
-						<ul class="dropdown-menu" role="menu">
-						  <li><a href="#">Action</a></li>
-						  <li><a href="#">Another action</a></li>
-						  <li><a href="#">Something else here</a></li>
-						  <li class="divider"></li>
-						  <li><a href="#">Separated link</a></li>
-						</ul>
-					  </div><!-- /btn-group -->
-					  <input type="text" class="form-control input-sm">
+						<div class="input-group-btn">
+						  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Files <span class="caret"></span></button>
+						  <ul class="dropdown-menu" role="menu">
+							  <li><a href="#">Files</a></li>
+							  <li><a href="#">Styles</a></li>
+							  <li class="divider"></li>
+							  <li><a href="#">Photos</a></li>
+						  </ul>
+						</div><!-- /btn-group -->
+						<form id='searchfrm'>
+						<input type="text" class="form-control input-sm" id='searchbox'>
+						</form>
 					</div><!-- /input-group -->
 				</div>
 			</div>
@@ -67,9 +68,9 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 
 		</div> <!-- left col-->
 
-		<div class='col-xs-9'>
-			<?php require 'main_div_inc.php'; ?>
-		</div><!-- right col div -->
+		<div id='maincol' class='col-xs-9'> <!-- main col -->
+			<?php require 'filebrowser_div_inc.php'; ?>
+		</div><!-- main col div -->
 
 	</div><!-- row -->
 

@@ -1,8 +1,12 @@
 <?
 //Sivann 2006-
 
+
 require_once("avssconf.php");
 require_once("avssfunc.php");
+require_once("avssmodel.php");
+
+set_include_path(get_include_path() . PATH_SEPARATOR . $avssdir);
 
 $SCRIPT_NAME=$_SERVER['SCRIPT_NAME'];
 $SERVER_NAME=$_SERVER['SERVER_NAME'];
@@ -15,6 +19,25 @@ if (isset($_GET['playdir'])) $playdir=$_GET['playdir'];
 if (!isset($sess)) $sess="";
 $basem3u="http://".$SERVER_NAME.$SCRIPT_NAME."/stream.m3u";
 $userdir=$avssdir."/data/ipz/".$sess;
+
+$datadir=$avssdir."/data";
+$dbfile=$datadir."/avss.db";
+
+//open db
+try {
+  $dbh = new PDO("sqlite:$dbfile");
+  //$dbh = new PDO("sqlite:$dbfile", NULL, NULL, array(PDO::ATTR_PERSISTENT => TRUE));  
+} 
+catch (PDOException $e) {
+  print "Open database Error!: " . $e->getMessage() . "<br>";
+  die();
+}
+
+//load REGEXP function from sqlite3-pcre
+//$sql=".load /usr/lib/sqlite3/pcre.so";
+//db_exec($dbh,$sql); // DOES NOT WORK, cannot add sqlite extension through pdo
+
+
 
 $time_start = microtime_float();
 
@@ -64,5 +87,9 @@ else
 $fscriptdir="$prot://$servername".(dirname($scriptname));
 $fscriptname="$prot://$servername$scriptname";
 //$fuploaddirwww="$prot://$servername".dirname($scriptname)."/$uploaddirwww";
+
+
+//login
+$authstatus=1;
 
 ?>
