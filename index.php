@@ -137,9 +137,6 @@ switch ($_GET['action']) {
     break;
 
 
-
-
-
   case "login":
     $title="login";
 	$head="php/headhome.php";

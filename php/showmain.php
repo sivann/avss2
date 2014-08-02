@@ -40,6 +40,18 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 			</div>
 
 			<div class='row'>
+				<div id='mode' class='col-xs-12 contentbox' > <!-- mode -->
+					<div class='content_boxtitle'>
+						<span>Browse by</span>
+					</div>
+					<A href="?action=listdir&path=<?=$path?>">File</a>
+					<A href="?action=liststyles">Style</a>
+					<A href="?action=listphotos">Photo</a>
+				</div>
+			</div><!-- row -->
+
+
+			<div class='row'>
 				<div id='folder_images' class='col-xs-12 contentbox' > <!-- images -->
 					<div class='content_boxtitle'>
 						<span>Artist Photos</span>
