@@ -29,7 +29,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 							  <li><a href="#">Files</a></li>
 							  <li><a href="#">Styles</a></li>
 							  <li class="divider"></li>
-							  <li><a href="#">Photos</a></li>
+							  <li><a href="#">Album</a></li>
 						  </ul>
 						</div><!-- /btn-group -->
 						<form method=GET action='?action=filesearch' id='searchfrm'>
@@ -53,7 +53,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 					</div>
 					<A href="?action=listdir&path=<?=$path?>">File</a>
 					<A href="?action=liststyles">Style</a>
-					<A href="?action=listphotos">Photo</a>
+					<A href="?action=listalbums">Album</a>
 				</div>
 			</div><!-- row -->
 
@@ -90,6 +90,9 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 					break;
 				case 'filesearch': 
 					require 'filesearch_div_inc.php'; 
+					break;
+				case 'albumbrowser': 
+					require 'albumbrowser_div_inc.php'; 
 					break;
 				default:
 					echo "Not implemented: $mode";

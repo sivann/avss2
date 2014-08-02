@@ -139,9 +139,9 @@ switch ($_GET['action']) {
     break;
 
 
-  case "listphotos":
+  case "listalbums":
     if ($authstatus) {
-	  $mode = 'photobrowser';
+	  $mode = 'albumbrowser';
       $req="php/showmain.php";
       $head="php/head.php";
     }
