@@ -62,7 +62,9 @@ $(function() {
 			data: {searchstring: searchstring},
 			url:    'php/ajax/searchFiles.php',
 			success: function(data) {
+				//history.pushState(null, null, '?action=search&string='+searchstring);
 				$('#maincol').html(data);
+				//https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history
 			}
         }); //ajax
 

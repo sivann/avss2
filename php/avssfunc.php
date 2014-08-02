@@ -609,14 +609,15 @@ function track2lnk($track) {
 	$lnkf="$basem3u?path=".urlencode($pathd)."&action=sendm3u"."&file=".urlencode($pathf);
 	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
 
-	$lnk="<a href='$lnkd'>{$track['directory']}</a>/ ".
-		 "<a href='$lnkf'>{$track['filename']}</a>";
+	$lnk="<a class='dir_lnk' href='$lnkd'>{$track['directory']}</a>/ ".
+		 "<a class='file_lnk' href='$lnkf'>{$track['filename']}</a>";
 	return $lnk;
 }
 
 
 function showTrackResult($tracks) {
-	echo "<table class='tbl'>";
+	//echo "<table class='table table-condensed table-bordered'>";
+	echo "<table >";
 	foreach ($tracks as  $idx=>$track) {
 		echo "\n";
 		echo "<tr><td>";

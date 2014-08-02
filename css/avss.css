@@ -270,3 +270,11 @@ body {
 .icon-back {
 	color:#B2C525;
 }
+
+a.dir_lnk {
+	color:#84BD00;
+}
+
+a.file_lnk {
+	color:rgb(124, 192, 255);
+}
