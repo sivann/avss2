@@ -610,7 +610,7 @@ function track2lnk($track) {
 	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
 
 	$lnk="<a class='dir_lnk' href='$lnkd'>{$track['directory']}</a>/ ".
-		 "<a class='file_lnk' href='$lnkf'>{$track['filename']}</a>";
+		 "<a class='audio_lnk' href='$lnkf'>{$track['filename']}</a>";
 	return $lnk;
 }
 

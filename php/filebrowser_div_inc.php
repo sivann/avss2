@@ -107,14 +107,15 @@ $dirinfo=parsepath($path);
 			  //VIEW/PLAY ICON
 			  echo "<div class='file_play'>";
 			  if ($isaudio) {
-				$href="$basem3u?path=".urlencode($path)."&action=sendm3u"."&file=".urlencode($allfiles["fname"][$j]);
+				  $fclass='audio_lnk';
+				  $href="$basem3u?path=".urlencode($path)."&action=sendm3u"."&file=".urlencode($allfiles["fname"][$j]);
 				  echo "<a title='Play Track' href=\"$href\">".
 				  "$icon".
 				  "</a></td>\n";
 			  }
 			  else {
-				$href="?path=".urlencode($path)."&action=sendfile"."&file=".urlencode($allfiles["fname"][$j]);
-				echo "<a href=\"$href\">$icon</a></td>\n";
+				  $href="?path=".urlencode($path)."&action=sendfile"."&file=".urlencode($allfiles["fname"][$j]);
+				  echo "<a href=\"$href\">$icon</a></td>\n";
 			  }
 			  echo "</div>\n";
 

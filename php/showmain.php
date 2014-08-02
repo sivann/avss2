@@ -32,8 +32,14 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 							  <li><a href="#">Photos</a></li>
 						  </ul>
 						</div><!-- /btn-group -->
-						<form id='searchfrm'>
-						<input type="text" class="form-control input-sm" id='searchbox'>
+						<form method=POST action='?action=filesearch' id='searchfrm'>
+						<?php
+						if (isset($_REQUEST['searchstring']))
+							$searchstring=$_REQUEST['searchstring'];
+						else
+							$searchstring='';
+						?>
+						<input name='searchstring' type="text" class="form-control input-sm" id='searchbox' value='<?=$searchstring?>'>
 						</form>
 					</div><!-- /input-group -->
 				</div>
@@ -80,6 +86,9 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 			switch ($mode) {
 				case 'filebrowser': 
 					require 'filebrowser_div_inc.php'; 
+					break;
+				case 'filesearch': 
+					require 'filesearch_div_inc.php'; 
 					break;
 				default:
 					echo "Not implemented: $mode";

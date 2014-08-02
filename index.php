@@ -20,8 +20,10 @@ else {
 }
 
 if (!isset($_GET['path'])) {
-	$_SESSION['path']=$_GET['path'];
+	$_SESSION['path']='';
 }
+else
+	$_SESSION['path']=$_GET['path'];
 
 $head="";
 $req="";
@@ -98,6 +100,19 @@ switch ($_GET['action']) {
       $head="php/headhome.php";
     }
     break;
+
+  case "filesearch":
+    if ($authstatus) {
+	  $mode = 'filesearch';
+      $req="php/showmain.php";
+      $head="php/head.php";
+    }
+    else { //not logged-in
+      $req="php/home.php";
+      $head="php/headhome.php";
+    }
+    break;
+
 
   case "listdir":
     if ($authstatus) {

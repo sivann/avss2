@@ -53,20 +53,21 @@ $(function() {
 
 	//SEARCH
 	$('#searchfrm').submit(function(event) {
-		var searchstring=$('#searchbox').val();
-		event.preventDefault();
 
+
+		/*
         jQuery.ajax({
 			type: 'POST',
 			cache: false,
 			data: {searchstring: searchstring},
-			url:    'php/ajax/searchFiles.php',
+			url:    '?action=filesearch&searchstring=michael', 
 			success: function(data) {
 				//history.pushState(null, null, '?action=search&string='+searchstring);
 				$('#maincol').html(data);
 				//https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history
 			}
         }); //ajax
+		*/
 
 
 	});

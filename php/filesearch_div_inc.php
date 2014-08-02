@@ -1,5 +1,5 @@
 <?php
-require("../avssinit.php");
+require("avssinit.php");
 if (!$authstatus) { echo "not logged in"; exit; }
 
 $searchstring=$_POST['searchstring'];
