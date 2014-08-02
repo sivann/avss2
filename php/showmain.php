@@ -32,7 +32,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 							  <li><a href="#">Photos</a></li>
 						  </ul>
 						</div><!-- /btn-group -->
-						<form method=POST action='?action=filesearch' id='searchfrm'>
+						<form method=GET action='?action=filesearch' id='searchfrm'>
 						<?php
 						if (isset($_REQUEST['searchstring']))
 							$searchstring=$_REQUEST['searchstring'];
@@ -40,6 +40,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 							$searchstring='';
 						?>
 						<input name='searchstring' type="text" class="form-control input-sm" id='searchbox' value='<?=$searchstring?>'>
+						<input type=hidden name='action' value='filesearch'>
 						</form>
 					</div><!-- /input-group -->
 				</div>

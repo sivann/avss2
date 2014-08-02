@@ -52,10 +52,10 @@ function showimage(imgno) {
 $(function() {
 
 	//SEARCH
-	$('#searchfrm').submit(function(event) {
 
 
 		/*
+	$('#searchfrm').submit(function(event) {
         jQuery.ajax({
 			type: 'POST',
 			cache: false,
@@ -67,10 +67,9 @@ $(function() {
 				//https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history
 			}
         }); //ajax
-		*/
-
 
 	});
+		*/
 
   
 });

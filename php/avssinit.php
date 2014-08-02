@@ -1,6 +1,8 @@
 <?
 //Sivann 2006-
 
+$SCRIPT_NAME=$_SERVER['SCRIPT_NAME'];
+$SERVER_NAME=$_SERVER['SERVER_NAME'];
 
 require_once("avssconf.php");
 require_once("avssfunc.php");
@@ -8,8 +10,6 @@ require_once("avssmodel.php");
 
 set_include_path(get_include_path() . PATH_SEPARATOR . $avssdir);
 
-$SCRIPT_NAME=$_SERVER['SCRIPT_NAME'];
-$SERVER_NAME=$_SERVER['SERVER_NAME'];
 
 if (isset($_GET['file'])) $file=$_GET['file'];
 if (isset($_GET['path'])) $path=$_GET['path'];
