@@ -104,17 +104,22 @@ function isexpired($userdir)
 
 
 function printfolderimages() {
-  global $path,$folderimages,$photoidx,$allfiles;
+	global $path,$folderimages,$photoidx,$allfiles;
 
-  if (!count($folderimages)) return;
+	if (!count($folderimages)) return;
 
-  $p0=$allfiles["fname"][$folderimages[0]];
-  $url="?path=".urlencode($path)."&file=".urlencode($p0)."&action=sendfile";
-  echo "\n<img id='photoimg' src='$url'><br>";
-  if ($photoidx>1)
-	  for ($i=0;$i<$photoidx;$i++) {
-		echo "\n<a class='badge' href='javascript:showimage(\"$i\");'>$i</a>";
-	  }
+	$p0=$allfiles["fname"][$folderimages[0]];
+	$url="?path=".urlencode($path)."&file=".urlencode($p0)."&action=sendfile";
+
+	echo "<div id='photoimgcontainer'>";
+	echo "\n<img id='photoimg' class='img-rounded' src='$url'>";
+	echo "</div><div>";
+
+	if ($photoidx>1)
+		for ($i=0;$i<$photoidx;$i++) {
+		  echo "\n<a class='badge' href='javascript:showimage(\"$i\");'>$i</a>";
+		}
+	echo "</div>";
 
 }
 

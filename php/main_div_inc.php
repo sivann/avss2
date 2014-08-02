@@ -17,7 +17,7 @@
 		$lnk="$SCRIPT_NAME?action=listdir&amp;path=".cutlast($path);
 	    $lnk=preg_replace("@/+@" , "/", $lnk);
 		echo "\t<div class='dir_row'><a href='$lnk'>";
-		echo "<img border=0 src='$icon_back'>&nbsp;..";
+		echo $icon_back."&nbsp;..";
 		echo "</a></div>\n";
 
 		for ($i=0;$i<$nd;$i++) {
@@ -32,7 +32,6 @@
 		  echo "\t<div class='dir_row'>";
 		  echo "<a href='$lnk'>";
 		  echo "$icon_dir";
-		  echo "<span class='glyphicon glyphicon-folder-close icon-folder'></span>";
 		  echo $alldirs[$i]."</a>";
 		  echo "\t</div>\n";
 		}//for

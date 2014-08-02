@@ -17,13 +17,12 @@ echo "<title>AudioPlayer :: ".basename($path)."</title>\n";
 if (isset($_GET['debug'])) print_r($dirinfo);
 ?>
 
-<div class='container-fluid'> <!--outer -->
+<div class='container' style='width:1200px'> <!--outer -->
 
 	<div class='row'> 
-		<div class='col-md-3'>  <!-- left col -->
-
+		<div class='col-xs-3'>  <!-- left col -->
 			<div class='row'>
-				<div class="col-md-12 contentbox"> <!-- search -->
+				<div class="col-xs-12 contentbox"> <!-- search -->
 					<div class='content_boxtitle'>
 						<span>Search</span>
 					</div>
@@ -45,7 +44,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 			</div>
 
 			<div class='row'>
-				<div id='folder_images' class='col-md-12 contentbox' > <!-- images -->
+				<div id='folder_images' class='col-xs-12 contentbox' > <!-- images -->
 					<div class='content_boxtitle'>
 						<span>Artist Photos</span>
 					</div>
@@ -54,7 +53,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 			</div><!-- row -->
 
 			<div class='row'>
-				<div id='artistinfo'  class='col-md-12 contentbox'> <!-- artistinfo -->
+				<div id='artistinfo'  class='col-xs-12 contentbox'> <!-- artistinfo -->
 					<div class='content_boxtitle'>
 						<span>Artist Info</span>
 					</div>
@@ -68,7 +67,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 
 		</div> <!-- left col-->
 
-		<div class='col-md-9'>
+		<div class='col-xs-9'>
 			<?php require 'main_div_inc.php'; ?>
 		</div><!-- right col div -->
 

@@ -20,7 +20,7 @@ $icon_playall="/avss2/images/play32.png";
 $icon_savedir="/avss2/images/folder_down.png";
 $icon_playlist="/avss2/images/playlist.png";
 $icon_tools="/avss2/images/fix.png";
-$icon_back="/avss2/images/arrow_turn_left.png";
+$icon_back="<span class='glyphicon glyphicon-chevron-left icon-back'></span>";
 
 
 ?>

@@ -227,8 +227,13 @@ body {
 	height:320px;
 }
 
-#folder_images img{
+#photoimgcontainer{
 	height:230px;
+}
+
+#folder_images img{
+	min-height:180px;
+	max-height:220px;
 	max-width:240px;
 }
 
@@ -260,4 +265,8 @@ body {
 .icon-image {
 	color:#B2C525;
 	margin-right:5px;
+}
+
+.icon-back {
+	color:#B2C525;
 }
