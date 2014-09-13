@@ -50,6 +50,22 @@ function showimage(imgno) {
 }
 //ready
 $(function() {
+	$('#searchOnFilename').click(function(e) {
+		e.preventDefault();
+		$('#searchon').val('filename');
+		$('#searchontxt').text('Filename');
+
+	})
+	$('#searchOnDirectory').click(function(e) {
+		e.preventDefault();
+		$('#searchon').val('directory');
+		$('#searchontxt').text('Directory');
+	})
+	$('#searchOnStyle').click(function(e) {
+		e.preventDefault();
+		$('#searchon').val('style');
+		$('#searchontxt').text('Style');
+	})
 
 	//SEARCH
 

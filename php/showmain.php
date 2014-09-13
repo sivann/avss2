@@ -24,10 +24,11 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 
 					<div class="input-group">
 						<div class="input-group-btn">
-						  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Files <span class="caret"></span></button>
+						  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span id='searchontxt'>Filename</span> <span class="caret"></span></button>
 						  <ul class="dropdown-menu" role="menu">
-							  <li><a href="#">Files</a></li>
-							  <li><a href="#">Styles</a></li>
+							  <li><a id='searchOnFilename' href="#">Filename</a></li>
+							  <li><a id='searchOnDirectory' href="#">Directory</a></li>
+							  <li><a id='searchOnStyle' href="#">Style</a></li>
 							  <li class="divider"></li>
 							  <li><a href="#">Album</a></li>
 						  </ul>
@@ -40,6 +41,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 							$searchstring='';
 						?>
 						<input name='searchstring' type="text" class="form-control input-sm" id='searchbox' value='<?=$searchstring?>'>
+						<input type=hidden id='searchon' name='searchon' value='filename'>
 						<input type=hidden name='action' value='filesearch'>
 						</form>
 					</div><!-- /input-group -->

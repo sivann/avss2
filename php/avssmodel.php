@@ -9,6 +9,15 @@ function searchTracksByStr($str) {
 	return $res;
 }
 
+function searchDirectoriesByStr($str) {
+	global $dbh;
+
+	$sql="SELECT * from track where directory GLOB :str LIMIT 1000";
+	$stmt=db_execute($dbh,$sql, array( 'str'=>"*$str*"));
+	$res=$stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $res;
+}
+
 //ordered by artist
 function getAlbums($offset,$limit) {
 	global $dbh;

@@ -615,7 +615,7 @@ function track2lnk($track) {
 }
 
 
-function showTrackResult($tracks) {
+function showTrackResults($tracks) {
 	//echo "<table class='table table-condensed table-bordered'>";
 	echo "<table >";
 	foreach ($tracks as  $idx=>$track) {
