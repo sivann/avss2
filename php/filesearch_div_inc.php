@@ -2,7 +2,7 @@
 require("avssinit.php");
 if (!$authstatus) { echo "not logged in"; exit; }
 
-$searchstring=$_POST['searchstring'];
+$searchstring=$_GET['searchstring'];
 
 
 $res=searchTracksByStr($searchstring);
