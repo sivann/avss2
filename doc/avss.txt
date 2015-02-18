@@ -1,6 +1,65 @@
+-- current schema
+
+
+CREATE TABLE album (
+  id integer primary key autoincrement,
+  artistid integer,
+  directory text unique,
+  year int,
+  rating int,
+  image_filenames text,
+  FOREIGN KEY(artistid) REFERENCES artist(id)
+);
+
+CREATE TABLE artist (
+  id integer primary key autoincrement,
+  directory text unique,
+  info text,
+  biography text,
+  discography text,
+  name text,
+  image_filenames text
+);
+
+CREATE TABLE artist_style (
+  artistid int,
+  styleid int,
+  FOREIGN KEY(artistid) REFERENCES artist(id)  ,
+  FOREIGN KEY(styleid) REFERENCES style(id)  
+);
+CREATE TABLE decade (
+  decade integer unique,
+  artistid id, 
+  FOREIGN KEY(artistid) REFERENCES artist(id)
+);
+CREATE TABLE style (
+  id integer primary key autoincrement,
+  name text
+);
+CREATE TABLE track (
+  id integer primary key autoincrement,
+  mtime int,
+  filename text,
+  directory text,
+  artistid integer,
+  albumid integer,
+  FOREIGN KEY(albumid) REFERENCES album(id),
+  FOREIGN KEY(artistid) REFERENCES artist(id)
+  CONSTRAINT path_UNIQUE UNIQUE (directory,filename)
+);
+CREATE INDEX idx_fn ON track(filename);
+
+
+
+
+-- originally planned schema
+
+
 create table artist (
   id int primary key,
   directory text,
+  name text,
+
   born text,
   formed text,
   disbanded text,
@@ -12,7 +71,6 @@ create table artist (
   biography text,
   aka text,
   discography text,
-  name text,
   image_filenames text
 );
 
@@ -46,13 +104,17 @@ create table track (
   mtime int,
   filename text unique,
   directory text,
+
+  artistid integer,
   albumid integer,
+  FOREIGN KEY(artistid) REFERENCES artist(id)
   FOREIGN KEY(albumid) REFERENCES album(id)
 );
 
 create table album (
   id int primary key,
   directory text unique,
+
   year int,
   rating int,
   image_filenames text
