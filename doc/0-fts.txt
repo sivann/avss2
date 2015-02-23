@@ -1,5 +1,0 @@
-convert to fts: http://www.xojo.com/blog/en/2014/03/full-text-search-with-sqlite.php
-fts + python: http://charlesleifer.com/blog/using-sqlite-full-text-search-with-python/
-
-select * from data where content match  'wilb*';
-

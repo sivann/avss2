@@ -9,3 +9,9 @@ Styles/tags
 Sources
 * allmusic
 * freebase
+
+
+player:
+jplayer
+http://jplayer.org/latest/demo-07/
+also: test/x2.html
