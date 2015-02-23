@@ -262,9 +262,10 @@ global $file,$path,$pathprefix,$_SERVER;
     $seekoffset=intval(substr($_SERVER['HTTP_RANGE'],6));
     fseek($fd,$seekoffset,SEEK_SET);
     $t=ftell($fd);
+	$sz0=$sz-1;
     header('HTTP/1.1 206 Partial Content');
     header('Accept-Ranges: bytes');
-    header("Content-Range: bytes $seekoffset-$sz/$sz");
+    header("Content-Range: bytes $seekoffset-$sz0/$sz");
     header("Content-Length: ".($sz-$seekoffset));
   }
   else

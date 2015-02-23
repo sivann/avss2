@@ -66,6 +66,19 @@ switch ($_GET['action']) {
     break;
 
 
+  case "test1":
+    if ($authstatus) {
+      $req="php/test1.php";
+      $head="";
+    }
+    else { //not logged-in
+      $req="php/home.php";
+      $head="php/headhome.php";
+    }
+    break;
+
+
+
   case "savefile":
     if ($authstatus) {
       $req="php/savefile.php";
