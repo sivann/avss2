@@ -1,5 +1,13 @@
-convert to fts: http://www.xojo.com/blog/en/2014/03/full-text-search-with-sqlite.php
-fts + python: http://charlesleifer.com/blog/using-sqlite-full-text-search-with-python/
+-- Create an FTS table named "pages" with three columns:
+CREATE VIRTUAL TABLE track_fts USING fts4(
+-- docid (rowid) same as track(id)
+ directory,
+  filename
+  );
 
-select * from data where content match  'wilb*';
+-- populate track_fts
+INSERT INTO track_fts(docid, directory, filename)  SELECT id,directory,filename from track;
+
+-- Optimize the internal structure of FTS table "track_fts".
+INSERT INTO track_fts(track_fts) VALUES('optimize');
 

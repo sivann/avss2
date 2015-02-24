@@ -601,11 +601,11 @@ function logerr($err) {
 }
 
 function track2lnk($track) {
-	global $basem3u;
+	global $basem3u,$SCRIPT_NAME,$pathprefix;
 
-	$pathd=$pathprefix."/".$track['directory'];
-	$pathf=$pathprefix."/".$track['filename'];
-	$patha=$pathprefix."/".$track['directory']."/".$track['filename'];
+	$pathd="/".$track['directory'];
+	$pathf="/".$track['filename'];
+	$patha="/".$track['directory']."/".$track['filename'];
 
 	$lnkf="$basem3u?path=".urlencode($pathd)."&action=sendm3u"."&file=".urlencode($pathf);
 	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
