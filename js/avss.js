@@ -48,29 +48,42 @@ function showimage(imgno) {
 	x2.src=Pictures[imgno];
 	currimg=imgno
 }
+
+//pulldown search menu
+function searchonGo(value) {
+	searchon_val2text={
+		'filename':'Filename',
+		'directory':'Directory only',
+		'style':'Style'
+	}
+
+	$('#searchon').val(value);
+	$('#searchontxt').text(searchon_val2text[value]);
+	$.cookie('searchon', value);
+}
+
 //ready
 $(function() {
+
+	//search pulldown
 	$('#searchOnFilename').click(function(e) {
 		e.preventDefault();
-		$('#searchon').val('filename');
-		$('#searchontxt').text('Filename');
+		searchonGo('filename');
 
 	})
 	$('#searchOnDirectory').click(function(e) {
 		e.preventDefault();
-		$('#searchon').val('directory');
-		$('#searchontxt').text('Directory');
+		searchonGo('directory');
 	})
 	$('#searchOnStyle').click(function(e) {
 		e.preventDefault();
-		$('#searchon').val('style');
-		$('#searchontxt').text('Style');
+		searchonGo('style');
 	})
 
+
+
+	/*
 	//SEARCH
-
-
-		/*
 	$('#searchfrm').submit(function(event) {
         jQuery.ajax({
 			type: 'POST',
@@ -85,7 +98,12 @@ $(function() {
         }); //ajax
 
 	});
-		*/
+	*/
+
+	//restore search preference
+	if ($.cookie('searchon')) {
+		searchonGo($.cookie('searchon'));
+	}
 
   
 });

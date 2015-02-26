@@ -27,7 +27,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 						  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span id='searchontxt'>Filename</span> <span class="caret"></span></button>
 						  <ul class="dropdown-menu" role="menu">
 							  <li><a id='searchOnFilename' href="#">Filename</a></li>
-							  <li><a id='searchOnDirectory' href="#">Directory</a></li>
+							  <li><a id='searchOnDirectory' href="#">Directory only</a></li>
 							  <li><a id='searchOnStyle' href="#">Style</a></li>
 							  <li class="divider"></li>
 							  <li><a href="#">Album</a></li>
