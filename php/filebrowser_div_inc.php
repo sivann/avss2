@@ -148,10 +148,6 @@ printJSartistphotoarray($pathdata); //fill-in javascript photo table
 			</div><!-- files -->
 
 
-			<?
-			$time_end = microtime_float();
-			$time_elapsed = round($time_end - $time_start, 3);
-			?>
 
 			<div id='files_toolbar'>
 

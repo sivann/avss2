@@ -40,7 +40,7 @@ else
 							  <li><a href="#">Album</a></li>
 						  </ul>
 						</div><!-- /btn-group -->
-						<form method=GET action='?action=filesearch' id='searchfrm'>
+						<form method=GET action='?action=search' id='searchfrm'>
 						<?php
 						if (isset($_REQUEST['searchstring']))
 							$searchstring=$_REQUEST['searchstring'];
@@ -49,7 +49,7 @@ else
 						?>
 						<input name='searchstring' type="text" class="form-control input-sm" id='searchbox' value='<?=$searchstring?>'>
 						<input type=hidden id='searchon' name='searchon' value='filename'>
-						<input type=hidden name='action' value='filesearch'>
+						<input type=hidden name='action' value='search'>
 						</form>
 					</div><!-- /input-group -->
 				</div>
@@ -97,8 +97,8 @@ else
 				case 'filebrowser': 
 					require 'filebrowser_div_inc.php'; 
 					break;
-				case 'filesearch': 
-					require 'filesearch_div_inc.php'; 
+				case 'search': 
+					require 'search_div_inc.php'; 
 					break;
 				case 'albumbrowser': 
 					require 'albumbrowser_div_inc.php'; 
@@ -114,6 +114,12 @@ else
 
 </div> <!--outer -->
 
+
+<?  
+$time_end = microtime_float();
+$time_elapsed = round($time_end - $time_start, 3); 
+echo "<!-- elapsed: $time_elapsed -->";
+?>  
 
 </body>
 </html>

@@ -89,7 +89,7 @@ $(function() {
 			type: 'POST',
 			cache: false,
 			data: {searchstring: searchstring},
-			url:    '?action=filesearch&searchstring=michael', 
+			url:    '?action=search&searchstring=michael', 
 			success: function(data) {
 				//history.pushState(null, null, '?action=search&string='+searchstring);
 				$('#maincol').html(data);

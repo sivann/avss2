@@ -118,9 +118,9 @@ switch ($_GET['action']) {
     }
     break;
 
-  case "filesearch":
+  case "search":
     if ($authstatus) {
-	  $mode = 'filesearch';
+	  $mode = 'search';
       $req="php/showmain.php";
       $head="php/head.php";
     }
