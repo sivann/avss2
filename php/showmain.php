@@ -9,7 +9,14 @@ echo "<title>AudioPlayer :: ".basename($path)."</title>\n";
 <body>
 
 <?php
-if (isset($_GET['debug'])) print_r($dirinfo);
+if (isset($_GET['debug'])) print_r($pathtype);
+
+if ($action=='listdir') {
+	$pathdata=readdirfiles($path);
+}
+else
+	$pathdata=getEmptypathdata();
+
 ?>
 
 <div class='container' style='width:1200px'> <!--outer -->
@@ -65,7 +72,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 					<div class='content_boxtitle'>
 						<span>Artist Photos</span>
 					</div>
-					<?  printfolderimages(); ?>
+					<?  printfolderimages($pathdata); ?>
 				</div>
 			</div><!-- row -->
 
@@ -75,7 +82,7 @@ if (isset($_GET['debug'])) print_r($dirinfo);
 						<span>Artist Info</span>
 					</div>
 					<?
-					printArtistInfo();
+					printArtistInfo($pathdata);
 					?>
 				</div>
 			</div><!--row-->

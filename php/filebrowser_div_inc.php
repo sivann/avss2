@@ -1,8 +1,7 @@
 <?php
-gotopath($path);
-readdirfiles(); //read&parse files and dirs
-makeartistphotoarray(); //fill-in javascript photo table
-$dirinfo=parsepath($path);
+
+printJSartistphotoarray($pathdata); //fill-in javascript photo table
+
 ?>
 		<div id='filebrowser'>
 			<ol class='breadcrumb' id='curdir'>
@@ -26,19 +25,19 @@ $dirinfo=parsepath($path);
 			echo $icon_back."&nbsp;..";
 			echo "</a></div>\n";
 
-			for ($i=0;$i<$nd;$i++) {
+			for ($i=0;$i<$pathdata['nd'];$i++) {
 			  if ($i%2) $col="#efefef"; else $col="#fefefe";
-			  if ($alldirs[$i]==".") continue;
-			  if ($alldirs[$i]=="..") continue;
+			  if ($pathdata['alldirs'][$i]==".") continue;
+			  if ($pathdata['alldirs'][$i]=="..") continue;
 
 			  $lnk="$SCRIPT_NAME?action=listdir&amp;path=".  
-				   str_replace("%2F","/",urlencode(("$path/$alldirs[$i]")));
+				   str_replace("%2F","/",urlencode(("$path/{$pathdata['alldirs'][$i]}")));
 
 			  $lnk=preg_replace("@/+@" , "/", $lnk);
 			  echo "\t<div class='dir_row'>";
 			  echo "<a href='$lnk'>";
 			  echo "$icon_dir";
-			  echo $alldirs[$i]."</a>";
+			  echo $pathdata['alldirs'][$i]."</a>";
 			  echo "\t</div>\n";
 			}//for
 
@@ -50,32 +49,32 @@ $dirinfo=parsepath($path);
 			<div id='files' >
 			<?
 			// print files
-			for ($j=0;$j<$naf;$j++) {
-			  if (strstr($allfiles["fname"][$j],".php") 
-			  //|| strstr($allfiles["fname"][$j],".txt")
+			for ($j=0;$j<$pathdata['naf'];$j++) {
+			  if (strstr($pathdata['allfiles']["fname"][$j],".php") 
+			  //|| strstr($pathdata['allfiles']["fname"][$j],".txt")
 			  ) continue;
 
 			  if ($j%2) $col="#E1F2FF"; else $col="#fefefe";
 
-			  $size=$allfiles["size"][$j];
+			  $size=$pathdata['allfiles']["size"][$j];
 
 			  $isaudio=0;
 
-			  if ($allfiles["fname"][$j][0]==".")  //.bio .info
+			  if ($pathdata['allfiles']["fname"][$j][0]==".")  //.bio .info
 				continue;
 
-			  if (isset ($allfiles["type"][$j]) && $allfiles["type"][$j]=="folderimage") //00photo...
+			  if (isset ($pathdata['allfiles']["type"][$j]) && $pathdata['allfiles']["type"][$j]=="folderimage") //00photo...
 				continue;
 
-			  if (isset ($allfiles["type"][$j]) && $allfiles["type"][$j]=="audio") 
+			  if (isset ($pathdata['allfiles']["type"][$j]) && $pathdata['allfiles']["type"][$j]=="audio") 
 				$isaudio=1; 
 
-			  if (isset($allfiles["icon"][$j])) 
-				$icon=$allfiles["icon"][$j];
+			  if (isset($pathdata['allfiles']["icon"][$j])) 
+				$icon=$pathdata['allfiles']["icon"][$j];
 
 			  if ($isaudio) {
-				$bps=$allfiles["bitrate"][$j];
-				$bpsinfo=$allfiles["bitrateinfo"][$j];
+				$bps=$pathdata['allfiles']["bitrate"][$j];
+				$bpsinfo=$pathdata['allfiles']["bitrateinfo"][$j];
 
 				if ($bpsinfo=="VBR") 
 				  $bpsstr="<span class='badge bitrate_vbr'>$bps VBR</span>";
@@ -99,7 +98,7 @@ $dirinfo=parsepath($path);
 			  echo "<div class='file_save'>";
 			  echo "<a href=\"?path=".urlencode($path).
 				"&action=savefile".
-				"&file=".urlencode($allfiles["fname"][$j])."\">".
+				"&file=".urlencode($pathdata['allfiles']["fname"][$j])."\">".
 				"$icon_save".
 				"</a></td>\n";
 			  echo "</div>\n";
@@ -108,13 +107,13 @@ $dirinfo=parsepath($path);
 			  echo "<div class='file_play'>";
 			  if ($isaudio) {
 				  $fclass='audio_lnk';
-				  $href="$basem3u?path=".urlencode($path)."&action=sendm3u"."&file=".urlencode($allfiles["fname"][$j]);
+				  $href="$basem3u?path=".urlencode($path)."&action=sendm3u"."&file=".urlencode($pathdata['allfiles']["fname"][$j]);
 				  echo "<a title='Play Track' href=\"$href\">".
 				  "$icon".
 				  "</a></td>\n";
 			  }
 			  else {
-				  $href="?path=".urlencode($path)."&action=sendfile"."&file=".urlencode($allfiles["fname"][$j]);
+				  $href="?path=".urlencode($path)."&action=sendfile"."&file=".urlencode($pathdata['allfiles']["fname"][$j]);
 				  echo "<a href=\"$href\">$icon</a></td>\n";
 			  }
 			  echo "</div>\n";
@@ -123,13 +122,13 @@ $dirinfo=parsepath($path);
 			  //view/play named link
 			  echo "<div class='file_name'>";
 			  echo "<a href=\"$href\">";
-			  echo $allfiles["fname"][$j];
+			  echo $pathdata['allfiles']["fname"][$j];
 			  echo "</a>";
 			  echo "</div>\n";
 
 
 			  if ($isaudio) 
-				$duration="(".$allfiles["mins"][$j].":".$allfiles["secs"][$j].") ";
+				$duration="(".$pathdata['allfiles']["mins"][$j].":".$pathdata['allfiles']["secs"][$j].") ";
 			  else
 				$duration="";
 
@@ -149,12 +148,10 @@ $dirinfo=parsepath($path);
 			</div><!-- files -->
 
 
-
-
-		<?
-		$time_end = microtime_float();
-		$time_elapsed = round($time_end - $time_start, 3);
-		?>
+			<?
+			$time_end = microtime_float();
+			$time_elapsed = round($time_end - $time_start, 3);
+			?>
 
 			<div id='files_toolbar'>
 
@@ -200,29 +197,31 @@ $dirinfo=parsepath($path);
 
 
 			<div class='album_dirs'>
-		<?
+			<?
 
-		//print album dirs here
-		$x=explode("/",$path); //find our depth below permanent
-		//if (($x[1]=="permanent") && (count($x)==4)){
-		if ($dirinfo['isartist']) {
+			//print album dirs here
+			$x=explode("/",$path); //find our depth below permanent
 
-		  $ap_r=get_subdirimages();
-		  //echo "lala;"; print_r($ap_r);
-		  echo "<div id='album_images'>";
-		  foreach ($ap_r as $k=>$ap){
-			echo $ap;
-		  }
-		  echo "</div>\n";
-		}
-		?>
+			//if (($x[1]=="permanent") && (count($x)==4)){
+			if ($pathdata['pathtype']['isartist']) {
+
+			  get_subdirimages($pathdata);
+			  $ap_r=$pathdata['subdirimages'];
+			  //echo "lala;"; print_r($ap_r);
+			  echo "<div id='album_images'>";
+			  foreach ($ap_r as $k=>$ap){
+				echo $ap;
+			  }
+			  echo "</div>\n";
+			}
+			?>
 			</div>
 
 
 			<?  
-			if ($dirinfo['isartist'] || $dirinfo['isalbum']) {
+			if ($pathdata['pathtype']['isartist'] || $pathdata['pathtype']['isalbum']) {
 				echo "\n<div id='bio' >";
-				printbio($dirinfo['datapath']); 
+				printbio($pathdata);
 				echo "</div>\n";
 			}
 			?>

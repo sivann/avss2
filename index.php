@@ -11,13 +11,17 @@ $initok=1;
 
 //require ("php/model.php");
 
-if (!isset($_GET['action']))
+if (!isset($_GET['action'])) {
   $_GET['action']="";
+  $action="";
+}
 else {
   $_GET['action']=str_replace("/","",$_GET['action']);
   $_GET['action']=str_replace("%","",$_GET['action']);
   $_GET['action']=str_replace(";","",$_GET['action']);
 }
+
+$action=$_GET['action'];
 
 if (!isset($_GET['path'])) {
 	$_SESSION['path']='';

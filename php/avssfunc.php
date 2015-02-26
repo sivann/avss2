@@ -1,19 +1,19 @@
 <?
 
-function parsepath($path) {
+function getPathType($path) {
 	global $pathprefix;
 	$x=explode("/",$path); 
 
 	//defaults
-	$dirinfo=array(
-	'isletterslist'=>0,
-	'isletterlist'=>0,
-	'iscollectionlist'=>0,
-	'iscollection'=>0,
-	'isartist'=>0,
-	'isalbum'=>0,
-	'datapath'=>'',
-	'issoundtrack'=>0
+	$pathtype=array(
+		'isletterslist'=>0,
+		'isletterlist'=>0,
+		'iscollectionlist'=>0,
+		'iscollection'=>0,
+		'isartist'=>0,
+		'isalbum'=>0,
+		'datapath'=>'',
+		'issoundtrack'=>0
 	);
 
 
@@ -26,18 +26,18 @@ function parsepath($path) {
 			$after_r=explode("/",$after);
 
 			if (strlen($after)==0) { // artist
-				$dirinfo['isletterslist']=1;
+				$pathtype['isletterslist']=1;
 			}
 			elseif (count($after_r)==1) { // A
-				$dirinfo['isletterlist']=1;
+				$pathtype['isletterlist']=1;
 			}
 			elseif (count($after_r)==2) { // A/abba
-				$dirinfo['isartist']=1;
-				$dirinfo['datapath']=$path;
+				$pathtype['isartist']=1;
+				$pathtype['datapath']=$path;
 			}
 			elseif (count($after_r)==3) { // A/abba/album
-				$dirinfo['isalbum']=1;
-				$dirinfo['datapath']=dirname($path);
+				$pathtype['isalbum']=1;
+				$pathtype['datapath']=dirname($path);
 			}
 		}
 		elseif ($apos=strpos($path,"/collections")) {
@@ -46,15 +46,15 @@ function parsepath($path) {
 			$after_r=explode("/",$after);
 
 			if (strlen($after)==0) { // collections
-				$dirinfo['iscollectionlist']=1;
+				$pathtype['iscollectionlist']=1;
 			}
 			elseif (count($after_r)==1) { // collectionname
-				$dirinfo['iscollection']=1;
-				$dirinfo['datapath']=$path;
+				$pathtype['iscollection']=1;
+				$pathtype['datapath']=$path;
 			}
 			elseif (count($after_r)==2) { // collectionname/disk1
-				$dirinfo['iscollection']=1;
-				$dirinfo['datapath']=dirname($path);
+				$pathtype['iscollection']=1;
+				$pathtype['datapath']=dirname($path);
 			}
 
 		}
@@ -64,24 +64,22 @@ function parsepath($path) {
 			$after_r=explode("/",$after);
 
 			if (strlen($after)==0) { // collections
-				$dirinfo['iscollectionlist']=1;
+				$pathtype['iscollectionlist']=1;
 			}
 			elseif (count($after_r)==1) { // collectionname
-				$dirinfo['iscollection']=1;
-				$dirinfo['datapath']=$path;
+				$pathtype['iscollection']=1;
+				$pathtype['datapath']=$path;
 			}
 			elseif (count($after_r)==2) { // collectionname/disk1
-				$dirinfo['iscollection']=1;
-				$dirinfo['datapath']=dirname($path);
+				$pathtype['iscollection']=1;
+				$pathtype['datapath']=dirname($path);
 			}
 
 		}
 
 	}
 
-
-	return $dirinfo;
-
+	return $pathtype;
 }
 
 function isexpired($userdir)
@@ -103,8 +101,11 @@ function isexpired($userdir)
 
 
 
-function printfolderimages() {
-	global $path,$folderimages,$photoidx,$allfiles;
+function printfolderimages($pathdata) {
+	$path=$pathdata['path'];
+	$folderimages=$pathdata['folderimages'];
+	$nphotos=$pathdata['nphotos'];
+	$allfiles=$pathdata['allfiles'];
 
 	if (!count($folderimages)) return;
 
@@ -115,8 +116,8 @@ function printfolderimages() {
 	echo "\n<img id='photoimg' class='img-rounded' src='$url'>";
 	echo "</div><div>";
 
-	if ($photoidx>1)
-		for ($i=0;$i<$photoidx;$i++) {
+	if ($nphotos>1)
+		for ($i=0;$i<$nphotos;$i++) {
 		  echo "\n<a class='badge' href='javascript:showimage(\"$i\");'>$i</a>";
 		}
 	echo "</div>";
@@ -124,10 +125,9 @@ function printfolderimages() {
 }
 
 /////////////////////////////////////////////////////////////
-function validateuser($userdir)
-{
-//$isexpired=isexpired($userdir);
-$isexpired=0;
+function validateuser($userdir) {
+	//$isexpired=isexpired($userdir);
+	$isexpired=0;
 
   if ($isexpired) {
     echo "Session expired ".($isexpired/60)." minutes ago, please login again<br>";
@@ -143,9 +143,9 @@ function microtime_float()
 
 
 //save file
-function savefile()
+function savefile($path,$file)
 {
-global $file,$path,$pathprefix;
+  global $pathprefix;
   if (!preg_match("#\.(mp3|ogg|mpc|jpg|txt|png|gif|html)$#i",$file)){
     header("Content-Type: text/html; charset=utf-8");
     echo "savefile:cannot save '$file'<br>";
@@ -163,9 +163,8 @@ global $file,$path,$pathprefix;
 }
 
 //save file
-function savedir()
-{
-global $file,$path,$pathprefix;
+function savedir($path) {
+  global $pathprefix;
 
   $mypid=getmypid();
   $dir=$pathprefix.$path."/";
@@ -218,7 +217,8 @@ global $file,$path,$pathprefix;
 //play audio, show images etc
 function sendfile($fromoffset=0)
 {
-global $file,$path,$pathprefix,$_SERVER;
+  global $file,$path,$pathprefix,$_SERVER;
+
   $file=str_replace("\'" , "'", $file);
 
   if (strstr($file,".jpg")) {
@@ -326,8 +326,7 @@ function senddirm3u()
   exit;
 }
 
-function gotopath($path)
-{
+function gotopath($path) {
   global $pathprefix;
   $goto=$pathprefix.$path;
   if (!chdir($goto)) {
@@ -339,14 +338,24 @@ function gotopath($path)
 
 
 //read & parse
-function readdirfiles()
-{
-
-	global $lsaudio,$alldirs,$nd,$allfiles,$naf;
-	global $bioidx,$infoidx,$folderimages,$photoidx;
+function readdirfiles($path="/") {
+	global $lsaudio;
 	global $icon_generic, $icon_audio, $icon_image;
+	//global $alldirs,$nd,$allfiles,$naf;
+	//global $bioidx,$infoidx,$folderimages,$nphotos;
 
-	$photoidx=0;
+	gotopath($path);
+
+	$bioidx=null;
+	$infoidx=null;
+	$naf=0;
+	$nd=0;
+	$nphotos=0;
+	$folderimages=array();
+
+
+
+	$nphotos=0;
 
 	$fp = popen ("$lsaudio", "r");
 	$nadf=0;$nd=0;$naf=0;
@@ -365,46 +374,83 @@ function readdirfiles()
 			$fname=$x[6];
 
 
-		if (preg_match("#\.(mp3|ogg|mpc)#i",$fname)) {
-			$allfiles["type"][$naf]="audio";
-			$allfiles["icon"][$naf]=$icon_audio;
-		}
-		elseif (strstr($fname,".bio"))  {
-			$bioidx=$naf;
-			$allfiles["type"][$naf]="bio";
-		}
-		elseif (strstr($fname,".info"))  {
-			$infoidx=$naf;
-			$allfiles["type"][$naf]="info";
-		}
-		elseif (strstr($fname,"photo.jpg")) {
-			$folderimages[$photoidx++]=$naf;
-			$allfiles["type"][$naf]="folderimage";
-		}
-		elseif (preg_match("#\.(jpg|png|gif)$#i",$fname)) {
-			$allfiles["type"][$naf]="image";
-			$allfiles["icon"][$naf]=$icon_image;
-		}
-		else  {
-			$allfiles["icon"][$naf]=$icon_generic;
-			$allfiles["type"][$naf]="generic";
-		}
-		$naf++;
+			if (preg_match("#\.(mp3|ogg|mpc)#i",$fname)) {
+				$allfiles["type"][$naf]="audio";
+				$allfiles["icon"][$naf]=$icon_audio;
+			}
+			elseif (strstr($fname,".bio"))  {
+				$bioidx=$naf;
+				$allfiles["type"][$naf]="bio";
+			}
+			elseif (strstr($fname,".info"))  {
+				$infoidx=$naf;
+				$allfiles["type"][$naf]="info";
+			}
+			elseif (strstr($fname,"photo.jpg")) {
+				$folderimages[$nphotos++]=$naf;
+				$allfiles["type"][$naf]="folderimage";
+			}
+			elseif (preg_match("#\.(jpg|png|gif)$#i",$fname)) {
+				$allfiles["type"][$naf]="image";
+				$allfiles["icon"][$naf]=$icon_image;
+			}
+			else  {
+				$allfiles["icon"][$naf]=$icon_generic;
+				$allfiles["type"][$naf]="generic";
+			}
+			$naf++;
 		}
 	}
 	pclose($fp);
+
+	$pathtype=getPathType($path);
+
+	$pathdata=array(
+		'path'=>$path,
+		'allfiles'=>$allfiles,
+		'naf'=>$naf,
+		'alldirs'=>$alldirs,
+		'nd'=>$nd,
+		'bioidx'=>$bioidx,
+		'infoidx'=>$infoidx,
+		'nphotos'=>$nphotos,
+		'folderimages'=>$folderimages,
+		'pathtype'=>$pathtype,
+		);
+
+	return $pathdata;
+}
+
+function getEmptypathdata() {
+
+	return array (
+		'path'=>"",
+		'allfiles'=>array(),
+		'naf'=>0,
+		'alldirs'=>array(),
+		'nd'=>0,
+		'bioidx'=>null,
+		'infoidx'=>null,
+		'nphotos'=>0,
+		'folderimages'=>array(),
+		'pathtype'=>array(),
+		);
 }
 
 
-function printbio($path)
+function printbio($pathdata)
 { 
-	global $bioidx,$allfiles,$pathprefix;
+	global $pathprefix;
 
-	if (isset($bioidx)) {
+	$bioidx=$pathdata['bioidx'];
+	$allfiles=$pathdata['allfiles'];
+	$datapath=$pathdata['pathtype']['datapath'];
+
+	if (is_int($bioidx)) {
 		$bio=file_get_contents($allfiles["fname"][$bioidx]);
 	}
 	else {
-		$files = glob($pathprefix.$path.'/.*.bio', GLOB_BRACE);
+		$files = glob($pathprefix.$datapath.'/.*.bio', GLOB_BRACE);
 		$bio=file_get_contents($files[0]);
 	}
 	$bio=str_replace("{" , "<b>", $bio);
@@ -413,11 +459,19 @@ function printbio($path)
 	echo substr($bio,1);
 }
 
-function printArtistInfo()
+
+function printArtistInfo($pathdata)
 {
-  global $infoidx,$allfiles;
-  if (!isset($infoidx)) return;
+  $allfiles=$pathdata['allfiles'];
+  $infoidx=$pathdata['infoidx'];
+
+  if (!is_int($infoidx)) return;
+
   $fp=fopen($allfiles["fname"][$infoidx],"r");
+  if (!$fp) {
+	  return;
+  }
+
   while (!feof($fp)) {
     $buffer = fgets($fp, 512);
     $x=explode(":",rtrim($buffer));
@@ -439,13 +493,16 @@ function printArtistInfo()
   fclose($fp);
 }
 
-function makeartistphotoarray()
+function printJSartistphotoarray($pathdata)
 {
-	global $folderimages,$photoidx,$path,$allfiles;
+	$folderimages=$pathdata['folderimages'];
+	$nphotos=$pathdata['nphotos'];
+	$path=$pathdata['path'];
+	$allfiles=$pathdata['allfiles'];
 
 	if (!count($folderimages)) return;
 	echo "\n<script>\nPictures = new Array(";
-	for ($i=0;$i<$photoidx;$i++) {
+	for ($i=0;$i<$nphotos;$i++) {
 		$p=$allfiles["fname"][$folderimages[$i]];
 		$url="?path=".urlencode($path)."&file=$p&action=sendfile";
 		if ($i>0) echo ",\n";
@@ -456,9 +513,12 @@ function makeartistphotoarray()
 
 
 //get album photos of subdirectories
-function get_subdirimages()
+function get_subdirimages(&$pathdata)
 {
-	global $nd, $alldirs,$path;
+	$nd=$pathdata['nd'];
+	$alldirs=$pathdata['alldirs'];
+	$path=$pathdata['path'];
+
 	$subdirimages=array();
 
 	for ($i=1;$i<$nd;$i++) {
@@ -482,14 +542,15 @@ function get_subdirimages()
 
 		$subdirimages[]="<a title='".$alldirs[$i]."' class='albumlink' href='$dirurl'>$block</a>";
 	}
-	return $subdirimages;
+
+	$pathdata['subdirimages']=$subdirimages;
 
 }
 
 function path2uris($path) {
 	$path_parts = pathinfo($path);
 	$xp=explode ("/",$path);
-	$uriprefix="$SCRIPT_NAME?action=listdir&amp;path=";
+	$uriprefix=$_SERVER['SCRIPT_NAME']."?action=listdir&amp;path=";
 	$uris=array();
 	$prevpath="";
 
