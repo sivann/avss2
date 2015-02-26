@@ -72,9 +72,18 @@ body {
 	margin-bottom:10px;
 }
 
+#searchresults {
+	width:100%;
+	max-height:670px;
+	overflow:auto; 
+	margin-top:10px;
+}
+
+
+
 #files {
 	width:100%;
-	max-height:500px;
+	max-height:600px;
 	overflow:auto; 
 	margin-top:10px;
 }

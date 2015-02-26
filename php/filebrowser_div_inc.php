@@ -4,6 +4,7 @@ printJSartistphotoarray($pathdata); //fill-in javascript photo table
 
 ?>
 		<div id='filebrowser'>
+
 			<ol class='breadcrumb' id='curdir'>
 			<?php 
 			$uris=path2uris($path);
