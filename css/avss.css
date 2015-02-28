@@ -251,6 +251,15 @@ body {
 }
 
 
+.icon-play-big {
+	color:rgb(124, 192, 255);
+	margin-right:5px;
+	font-size:28px;
+}
+.icon-play-big:hover {
+	color:rgb(164, 222, 255);
+}
+
 .icon-play {
 	color:rgb(124, 192, 255);
 	margin-right:5px;

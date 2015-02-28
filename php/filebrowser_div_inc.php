@@ -122,7 +122,7 @@ printJSartistphotoarray($pathdata); //fill-in javascript photo table
 
 			  //view/play named link
 			  echo "<div class='file_name'>";
-			  echo "<a href=\"$href\">";
+			  echo "<a class='audio_lnk' href=\"$href\">";
 			  echo $pathdata['allfiles']["fname"][$j];
 			  echo "</a>";
 			  echo "</div>\n";

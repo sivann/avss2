@@ -80,6 +80,10 @@ $(function() {
 		searchonGo('style');
 	})
 
+	//restore search preference
+	if ($.cookie('searchon')) {
+		searchonGo($.cookie('searchon'));
+	}
 
 
 	/*
@@ -100,10 +104,16 @@ $(function() {
 	});
 	*/
 
-	//restore search preference
-	if ($.cookie('searchon')) {
-		searchonGo($.cookie('searchon'));
-	}
+
+    //
+	$('#playall_searchresults').click(function(e) {
+		var links=[];
+		$('#searchresults a.audio_lnk').each(function(i,e) {
+			var href=$(e).attr('href');
+			links.push(href);
+		});
+		console.log(links);
+	});
 
   
 });
