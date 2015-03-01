@@ -67,30 +67,27 @@ if (basename($scriptdir)=="php") {
   $scriptdir=preg_replace("/\/php$/","",$scriptdir);
 }
 
-//wscriptdir: www relative address of base directory 
-//used for cookie setting
-$wscriptdir=dirname($_SERVER['SCRIPT_NAME']);
-if (basename($wscriptdir)=="php") {
-  $wscriptdir=preg_replace('#/php$#','',$wscriptdir);
-}
+if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == "on"))
+  $prot="https" ;
+else
+  $prot="http";
+
+
 if ($wscriptdir=="") $wscriptdir="/"; //installed under /
+
+$avsswwwdir=normpath(dirname(substr( __FILE__, strlen( $_SERVER[ 'DOCUMENT_ROOT' ] ) )). '/../');
+$wscriptdir="$prot://$servername$avsswwwdir";
 
 if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
   $remaddr=$_SERVER['HTTP_X_FORWARDED_FOR'];
 else
   $remaddr=$_SERVER['REMOTE_ADDR'];
 
-if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == "on"))
-  $prot="https" ;
-else
-  $prot="http";
-
-$fscriptdir="$prot://$servername".(dirname($scriptname));
-$fscriptname="$prot://$servername$scriptname";
-//$fuploaddirwww="$prot://$servername".dirname($scriptname)."/$uploaddirwww";
 
 
 //login
 $authstatus=1;
+
+if (!$authstatus) { echo "not logged in"; exit; }
 
 ?>

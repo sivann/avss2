@@ -105,15 +105,41 @@ $(function() {
 	*/
 
 
-    //
+	//PLAY ALL search results
 	$('#playall_searchresults').click(function(e) {
 		var links=[];
+		//create array 
 		$('#searchresults a.audio_lnk').each(function(i,e) {
 			var href=$(e).attr('href');
-			links.push(href);
+			var $uri=$(e).uri();
+			var params = $uri.search(true)
+			var obj={};
+			obj.path=params.path;
+			obj.file=params.file;
+
+			links.push(obj);
 		});
-		console.log(links);
+
+		//play 
+		playFiles(links,'m3u','keep');
 	});
+
+	function playFiles(files,method,order) {
+		if (method == 'm3u') {
+			$.ajax({
+			  type: "POST",
+			  url: 'php/ajax/getFiles_m3u.php.m3u',
+			  data: {order:order, files: files}
+			  //success: success,
+			  //dataType: dataType
+			}).
+			done(function( d ) {
+				console.log(d)
+			});
+
+
+		}
+	}
 
   
 });

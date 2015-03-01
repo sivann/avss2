@@ -326,6 +326,32 @@ function senddirm3u()
   exit;
 }
 
+//send all playable files in search array extended m3u format
+function getFiles_m3u($files,$order)
+{
+	global $path,$pathprefix,$SERVER_NAME,$SCRIPT_NAME,$ls,$lsaudio,$wscriptdir;
+
+	header ("Content-type: audio/mpeg-url");
+	echo "#EXTM3U\n";
+
+	foreach ($files as $f) {
+		$path=$f['path'];
+		$file=$f['file'];
+	    $url="?path=".rawurlencode($path)."&file=".rawurlencode($file)."&action=sendfile";
+
+		$secs="100";
+	    echo "#EXTINF:$secs,$file\n"; //format: #EXTINF - extra info - length (seconds), title
+	    echo $wscriptdir.$url;
+	    echo "\n\n";
+	}
+	pclose($fp);
+	exit;
+}
+
+
+
+
+
 function gotopath($path) {
   global $pathprefix;
   $goto=$pathprefix.$path;
@@ -664,9 +690,9 @@ function logerr($err) {
 function track2lnk($track) {
 	global $basem3u,$SCRIPT_NAME,$pathprefix;
 
-	$pathd="/".$track['directory'];
-	$pathf="/".$track['filename'];
-	$patha="/".$track['directory']."/".$track['filename'];
+	$pathd=$track['directory'];
+	$pathf=$track['filename'];
+	//$patha="/".$track['directory']."/".$track['filename'];
 
 	$lnkf="$basem3u?path=".urlencode($pathd)."&action=sendm3u"."&file=".urlencode($pathf);
 	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
@@ -687,6 +713,48 @@ function showTrackResults($tracks) {
 		echo "</td></tr>";
 	}
 	echo "</table>\n";
+}
+
+function normpath($path)
+{
+    if (empty($path))
+        return '.';
+
+    if (strpos($path, '/') === 0)
+        $initial_slashes = true;
+    else
+        $initial_slashes = false;
+    if (
+        ($initial_slashes) &&
+        (strpos($path, '//') === 0) &&
+        (strpos($path, '///') === false)
+    )
+        $initial_slashes = 2;
+    $initial_slashes = (int) $initial_slashes;
+
+    $comps = explode('/', $path);
+    $new_comps = array();
+    foreach ($comps as $comp)
+    {
+        if (in_array($comp, array('', '.')))
+            continue;
+        if (
+            ($comp != '..') ||
+            (!$initial_slashes && !$new_comps) ||
+            ($new_comps && (end($new_comps) == '..'))
+        )
+            array_push($new_comps, $comp);
+        elseif ($new_comps)
+            array_pop($new_comps);
+    }
+    $comps = $new_comps;
+    $path = implode('/', $comps);
+    if ($initial_slashes)
+        $path = str_repeat('/', $initial_slashes) . $path;
+    if ($path)
+        return $path;
+    else
+        return '.';
 }
 
 ?>

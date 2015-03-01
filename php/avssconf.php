@@ -1,6 +1,9 @@
 <?php
 $avssdir="/home/www/htdocs/avss2/";
-$avsswwwdir="/avss/";
+$avsswwwdir="/avss2/";
+
+// $avsswwwdir=normpath(dirname(substr( __FILE__, strlen( $_SERVER[ 'DOCUMENT_ROOT' ] ) )). '/../');
+
 $avsshost=$_SERVER["HTTP_HOST"];
 $audioroot="/MMROOT/audio";
 
