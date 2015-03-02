@@ -132,7 +132,7 @@ $(function() {
 			var data_s;
 			data_s=JSON.stringify(data),
 
-			$('#theform').attr('action','php/ajax/getFiles_m3u.php.m3u');
+			$('#theform').attr('action','php/getFiles_m3u.php.m3u');
 			$('#theform #var1').val(data_s);
 			$('#theform').submit();
 			return;

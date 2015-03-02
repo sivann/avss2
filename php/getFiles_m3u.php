@@ -1,6 +1,9 @@
 <?php
 require("../avssinit.php");
 
+//play all (m3u)
+//called by: javascript playFiles()
+
 $d=$_POST['var1'];
 $d_r=json_decode($d,true);
 
