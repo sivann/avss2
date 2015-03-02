@@ -108,7 +108,7 @@ printJSartistphotoarray($pathdata); //fill-in javascript photo table
 			  echo "<div class='file_play'>";
 			  if ($isaudio) {
 				  $fclass='audio_lnk';
-				  $href="$basem3u?path=".urlencode($path)."&action=sendm3u"."&file=".urlencode($pathdata['allfiles']["fname"][$j]);
+				  $href="$basem3u?path=".urlencode($path)."&action=getfile_m3u"."&file=".urlencode($pathdata['allfiles']["fname"][$j]);
 				  echo "<a title='Play Track' href=\"$href\">".
 				  "$icon".
 				  "</a></td>\n";

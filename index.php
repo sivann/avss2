@@ -47,9 +47,9 @@ header('X-UA-Compatible: IE=edge,chrome=1');
 
 switch ($_GET['action']) {
 
-  case "sendm3u":
+  case "getfile_m3u":
     if ($authstatus) {
-      $req="php/sendm3u.php";
+      $req="php/getFile_m3u.php";
       $head="";
     }
     else { //not logged-in
@@ -58,9 +58,9 @@ switch ($_GET['action']) {
     }
     break;
 
-  case "sendfile":
+  case "getfile":
     if ($authstatus) {
-      $req="php/sendfile.php";
+      $req="php/getFile.php";
       $head="";
     }
     else { //not logged-in

@@ -110,7 +110,7 @@ function printfolderimages($pathdata) {
 	if (!count($folderimages)) return;
 
 	$p0=$allfiles["fname"][$folderimages[0]];
-	$url="?path=".urlencode($path)."&file=".urlencode($p0)."&action=sendfile";
+	$url="?path=".urlencode($path)."&file=".urlencode($p0)."&action=getfile";
 
 	echo "<div id='photoimgcontainer'>";
 	echo "\n<img id='photoimg' class='img-rounded' src='$url'>";
@@ -215,7 +215,7 @@ function savedir($path) {
 
 
 //play audio, show images etc
-function sendfile($fromoffset=0)
+function getFile($fromoffset=0)
 {
   global $file,$path,$pathprefix,$_SERVER;
 
@@ -231,7 +231,7 @@ function sendfile($fromoffset=0)
   }
   elseif (!preg_match("#\.(mp3|ogg|mpc|jpg|txt|png|gif|html)$#i",$file)){
     header("Content-Type: text/plain; charset=utf-8");
-    echo "sendfile:$file cannot open unknown file<br>";
+    echo "getFile:$file cannot open unknown file<br>";
     exit;
   }
 
@@ -281,12 +281,12 @@ function sendfile($fromoffset=0)
 }
 
 //streaming - send urls in m3u format
-function sendm3u()
+function getFile_m3u()
 {
   global $path,$file,$SERVER_NAME,$SCRIPT_NAME;
 
   header ("Content-type: audio/mpeg-url");
-  $url="?path=".rawurlencode($path)."&file=".rawurlencode($file)."&action=sendfile";
+  $url="?path=".rawurlencode($path)."&file=".rawurlencode($file)."&action=getfile";
   echo "http://".$SERVER_NAME.$SCRIPT_NAME.$url;
   echo "\n";
 
@@ -316,7 +316,7 @@ function senddirm3u()
 	}
     if (!preg_match("#\.(mp3|ogg|mpc)$#i",$row[6])) continue;
 
-    $url="?path=".rawurlencode($path)."&file=".rawurlencode($row[6])."&action=sendfile";
+    $url="?path=".rawurlencode($path)."&file=".rawurlencode($row[6])."&action=getfile";
 
     echo "#EXTINF:$secs,$row[6]\n"; //format: #EXTINF - extra info - length (seconds), title
     echo "http://".$SERVER_NAME.$SCRIPT_NAME.$url;
@@ -338,7 +338,7 @@ function getFiles_m3u($files,$order)
 	foreach ($files as $f) {
 		$path=$f['path'];
 		$file=$f['file'];
-	    $url="?path=".rawurlencode($path)."&file=".rawurlencode($file)."&action=sendfile";
+	    $url="?path=".rawurlencode($path)."&file=".rawurlencode($file)."&action=getfile";
 
 		//TODO: read seconds while filling DB
 		$secs="";
@@ -380,6 +380,7 @@ function readdirfiles($path="/") {
 	$nd=0;
 	$nphotos=0;
 	$folderimages=array();
+	$allfiles=array();
 
 
 
@@ -532,7 +533,7 @@ function printJSartistphotoarray($pathdata)
 	echo "\n<script>\nPictures = new Array(";
 	for ($i=0;$i<$nphotos;$i++) {
 		$p=$allfiles["fname"][$folderimages[$i]];
-		$url="?path=".urlencode($path)."&file=$p&action=sendfile";
+		$url="?path=".urlencode($path)."&file=$p&action=getfile";
 		if ($i>0) echo ",\n";
 		echo "\"$url\"";
 	}
@@ -555,7 +556,7 @@ function get_subdirimages(&$pathdata)
 		$dirurl="?action=listdir&amp;path=".urlencode($path."/".$alldirs[$i]);
 		$p=$alldirs[$i]."/00photo.jpg";
 		if (file_exists($p)){
-			$img="<img class='th_albumimg' src='?path=".urlencode($path)."&file=".urlencode($p)."&action=sendfile'>";
+			$img="<img class='th_albumimg' src='?path=".urlencode($path)."&file=".urlencode($p)."&action=getfile'>";
 
 		}
 		else {
@@ -696,7 +697,7 @@ function track2lnk($track) {
 	$pathf=$track['filename'];
 	//$patha="/".$track['directory']."/".$track['filename'];
 
-	$lnkf="$basem3u?path=".urlencode($pathd)."&action=sendm3u"."&file=".urlencode($pathf);
+	$lnkf="$basem3u?path=".urlencode($pathd)."&action=getfile_m3u"."&file=".urlencode($pathf);
 	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
 
 	$lnk="<a class='dir_lnk' href='$lnkd'>{$track['directory']}</a>/ ".
