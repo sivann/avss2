@@ -125,20 +125,19 @@ $(function() {
 	});
 
 	function playFiles(files,method,order) {
+		//m3u: fill file list in hidden form <input> , and POST. 
+		//Cannot do with AJAX because MIME handler is triggered by form's action.
 		if (method == 'm3u') {
-			$.ajax({
-			  type: "POST",
-			  url: 'php/ajax/getFiles_m3u.php.m3u',
-			  data: {order:order, files: files}
-			  //success: success,
-			  //dataType: dataType
-			}).
-			done(function( d ) {
-				console.log(d)
-			});
+			var data= {order:order, files: files}
+			var data_s;
+			data_s=JSON.stringify(data),
 
-
+			$('#theform').attr('action','php/ajax/getFiles_m3u.php.m3u');
+			$('#theform #var1').val(data_s);
+			$('#theform').submit();
+			return;
 		}
+
 	}
 
   

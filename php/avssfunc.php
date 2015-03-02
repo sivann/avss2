@@ -332,6 +332,7 @@ function getFiles_m3u($files,$order)
 	global $path,$pathprefix,$SERVER_NAME,$SCRIPT_NAME,$ls,$lsaudio,$wscriptdir;
 
 	header ("Content-type: audio/mpeg-url");
+
 	echo "#EXTM3U\n";
 
 	foreach ($files as $f) {
@@ -339,12 +340,13 @@ function getFiles_m3u($files,$order)
 		$file=$f['file'];
 	    $url="?path=".rawurlencode($path)."&file=".rawurlencode($file)."&action=sendfile";
 
-		$secs="100";
+		//TODO: read seconds while filling DB
+		$secs="";
+
 	    echo "#EXTINF:$secs,$file\n"; //format: #EXTINF - extra info - length (seconds), title
 	    echo $wscriptdir.$url;
 	    echo "\n\n";
 	}
-	pclose($fp);
 	exit;
 }
 

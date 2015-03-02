@@ -121,6 +121,10 @@ $time_elapsed = round($time_end - $time_start, 3);
 echo "<!-- elapsed: $time_elapsed -->";
 ?>  
 
+<form style="display: hidden" action="/url" method="POST" id="theform">
+<input type="hidden" id="var1" name="var1" value=""/>
+</form>
+
 </body>
 </html>
 

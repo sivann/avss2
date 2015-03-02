@@ -73,7 +73,7 @@ else
   $prot="http";
 
 
-if ($wscriptdir=="") $wscriptdir="/"; //installed under /
+if ($avsswwwdir=="") $avsswwwdir="/"; //installed under /
 
 $avsswwwdir=normpath(dirname(substr( __FILE__, strlen( $_SERVER[ 'DOCUMENT_ROOT' ] ) )). '/../');
 $wscriptdir="$prot://$servername$avsswwwdir";
