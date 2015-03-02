@@ -97,7 +97,7 @@ printJSartistphotoarray($pathdata); //fill-in javascript photo table
 
 			  //SAVE ICON
 			  echo "<div class='file_save'>";
-			  echo "<a href=\"?path=".urlencode($path).
+			  echo "<a class='save_lnk' href=\"?path=".urlencode($path).
 				"&action=savefile".
 				"&file=".urlencode($pathdata['allfiles']["fname"][$j])."\">".
 				"$icon_save".

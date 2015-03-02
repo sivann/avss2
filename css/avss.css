@@ -251,23 +251,32 @@ body {
 }
 
 
+
+
 .icon-play-big {
 	color:rgb(124, 192, 255);
 	margin-right:5px;
 	font-size:28px;
 }
 .icon-play-big:hover {
-	color:rgb(164, 222, 255);
+	/*color:rgb(164, 222, 255);*/
+	color:rgb(46, 127, 202);
 }
 
 .icon-play {
 	color:rgb(124, 192, 255);
 	margin-right:5px;
 }
+.icon-play:hover {
+	color:rgb(46, 127, 202);
+}
 
 .icon-download {
 	color:rgb(255, 102, 102);
 	margin-right:5px;
+}
+.icon-download:hover {
+	color:rgb(207, 50, 50);
 }
 
 .icon-home {
@@ -289,6 +298,10 @@ body {
 	color:#B2C525;
 }
 
+
+
+
+
 a.dir_lnk {
 	color:#84BD00;
 }
@@ -296,3 +309,9 @@ a.dir_lnk {
 a.audio_lnk {
 	color:rgb(124, 192, 255);
 }
+
+.topalign {
+	vertical-align:top;
+}
+
+

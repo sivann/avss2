@@ -32,13 +32,13 @@ switch ($searchon) {
 		//echo "<pre>"; print_r($res);
 		?>
 
-            <div id='files_toolbar'>
+		<div id='files_toolbar'>
 
-              <div id='playall_searchresults' class='toolbar_item'>
-                <div >
-					<span title='Play All' class='glyphicon glyphicon-play icon-play-big'></span>
-                </div>
-              </div>
+		  <div id='playall_searchresults' class='toolbar_item'>
+			<div >
+				<span title='Play All' class='glyphicon glyphicon-play icon-play-big'></span>
+			</div>
+		  </div>
 
 
-            </div>
+		</div>

@@ -148,7 +148,7 @@ function savefile($path,$file)
   global $pathprefix;
   if (!preg_match("#\.(mp3|ogg|mpc|jpg|txt|png|gif|html)$#i",$file)){
     header("Content-Type: text/html; charset=utf-8");
-    echo "savefile:cannot save '$file'<br>";
+    echo "savefile:not permitted file type for '$file'<br>";
     exit;
   }
 
@@ -690,12 +690,11 @@ function logerr($err) {
         syslog(LOG_INFO, "ERROR:$err, REMOTE_ADDRESS:$remaddr, BROWSER:$browser, PHPBACKTRACE:".$phpbt);
 }
 
-function track2lnk($track) {
-	global $basem3u,$SCRIPT_NAME,$pathprefix;
+function track2lnk_m3u($track) {
+	global $basem3u,$SCRIPT_NAME;
 
 	$pathd=$track['directory'];
 	$pathf=$track['filename'];
-	//$patha="/".$track['directory']."/".$track['filename'];
 
 	$lnkf="$basem3u?path=".urlencode($pathd)."&action=getfile_m3u"."&file=".urlencode($pathf);
 	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
@@ -706,13 +705,28 @@ function track2lnk($track) {
 }
 
 
+function track2lnk_save($track) {
+	global $basem3u;
+	global $icon_save;
+
+	$pathd=$track['directory'];
+	$pathf=$track['filename'];
+
+	$lnk="$basem3u?path=".urlencode($pathd)."&action=savefile"."&file=".urlencode($pathf);
+
+	$lnk="<a class='save_lnk' href='$lnk'>$icon_save</a>";
+	return $lnk;
+}
+
+
 function showTrackResults($tracks) {
 	//echo "<table class='table table-condensed table-bordered'>";
 	echo "<table >";
 	foreach ($tracks as  $idx=>$track) {
 		echo "\n";
-		echo "<tr><td>";
-		echo track2lnk($track);
+		echo "<tr>";
+		echo "<td class='topalign'>".track2lnk_save($track)."</td>";
+		echo "<td>".track2lnk_m3u($track)."</td>";
 		echo "</td></tr>";
 	}
 	echo "</table>\n";
