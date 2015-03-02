@@ -1,5 +1,5 @@
 <?php
-require("../avssinit.php");
+require("avssinit.php");
 
 //play all (m3u)
 //called by: javascript playFiles()
