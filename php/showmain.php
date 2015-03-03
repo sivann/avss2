@@ -55,6 +55,27 @@ else
 				</div>
 			</div>
 
+
+			<div class='row'>
+				<div id='mode' class='col-xs-12 contentbox' > <!-- web audio player (jplayer) -->
+					<div class='content_boxtitle'>
+						<span>Player</span>
+					</div>
+
+					<div class="btn-group btn-group-xs" data-toggle="buttons" id=playertype >
+					  <label class="btn btn-default active" id="playertypem3u" title='Call an associated M3U player (VLC,Winamp)'>
+						<input type="radio" name="playertype" value='m3u'> M3U
+					  </label>
+					  <label class="btn btn-default" id='playertypeweb' title='Play through the embedded HTML5/Flash player'>
+						<input type="radio" name="playertype" value='web'> WEB
+					  </label>
+					</div>
+
+					<?php require 'jplayer_div_inc.php';  ?>
+				</div>
+			</div><!-- row -->
+
+
 			<div class='row'>
 				<div id='mode' class='col-xs-12 contentbox' > <!-- mode -->
 					<div class='content_boxtitle'>

@@ -50,7 +50,7 @@ function showimage(imgno) {
 }
 
 //pulldown search menu
-function searchonGo(value) {
+function setSearchOn(value) {
 	searchon_val2text={
 		'filename':'Filename',
 		'directory':'Directory only',
@@ -62,47 +62,87 @@ function searchonGo(value) {
 	$.cookie('searchon', value);
 }
 
+//player type
+function getPlayerType() {
+	return $('input[name=playertype]:checked','#playertype').val();
+}
+
+function setPlayerType(type) {
+	disablePlayerTypeChange();
+
+	if (type && !type.length)
+		type='m3u';
+
+	$.cookie('playertype', type);
+	enablePlayerTypeChange();
+}
+
+function loadPlayerType() {
+	//restore player preference
+	if (type=$.cookie('playertype')) {
+		$("input[name=playertype][value=" + type + "]",'#playertype').parent('label').button('toggle');
+	}
+}
+
+
+
+
+
+function playFiles(files,method,order) {
+	//m3u: fill file list in hidden form <input> , and POST. 
+	//Cannot do with AJAX because MIME handler is triggered by form's action.
+	if (method == 'm3u') {
+		var data= {order:order, files: files}
+		var data_s;
+		data_s=JSON.stringify(data),
+
+		$('#theform').attr('action','php/getFiles_m3u.php.m3u');
+		$('#theform #var1').val(data_s);
+		$('#theform').submit();
+		return;
+	}
+	else {
+		console.log(method+' play method not implemented');
+	}
+}
+
+
+function enablePlayerTypeChange() {
+		$('#playertype input[name=playertype]').on('change', function () {
+			setPlayerType(this.value);
+		});
+}
+
+function disablePlayerTypeChange() {
+		$('#playertype input[name=playertype]').off('change');
+}
+
 //ready
 $(function() {
 
 	//search pulldown
 	$('#searchOnFilename').click(function(e) {
 		e.preventDefault();
-		searchonGo('filename');
+		setSearchOn('filename');
 
 	})
 	$('#searchOnDirectory').click(function(e) {
 		e.preventDefault();
-		searchonGo('directory');
+		setSearchOn('directory');
 	})
 	$('#searchOnStyle').click(function(e) {
 		e.preventDefault();
-		searchonGo('style');
+		setSearchOn('style');
 	})
 
 	//restore search preference
 	if ($.cookie('searchon')) {
-		searchonGo($.cookie('searchon'));
+		setSearchOn($.cookie('searchon'));
 	}
 
 
-	/*
-	//SEARCH
-	$('#searchfrm').submit(function(event) {
-        jQuery.ajax({
-			type: 'POST',
-			cache: false,
-			data: {searchstring: searchstring},
-			url:    '?action=search&searchstring=michael', 
-			success: function(data) {
-				//history.pushState(null, null, '?action=search&string='+searchstring);
-				$('#maincol').html(data);
-				//https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history
-			}
-        }); //ajax
-
-	});
-	*/
+	loadPlayerType(); //call this before enablePlayerTypeChange (or you'll have an event loop)
+	enablePlayerTypeChange();
 
 
 	//PLAY ALL search results
@@ -121,24 +161,9 @@ $(function() {
 		});
 
 		//play 
-		playFiles(links,'m3u','keep');
+		var playertype=getPlayerType();
+		playFiles(links,playertype,'keep');
 	});
 
-	function playFiles(files,method,order) {
-		//m3u: fill file list in hidden form <input> , and POST. 
-		//Cannot do with AJAX because MIME handler is triggered by form's action.
-		if (method == 'm3u') {
-			var data= {order:order, files: files}
-			var data_s;
-			data_s=JSON.stringify(data),
-
-			$('#theform').attr('action','php/getFiles_m3u.php.m3u');
-			$('#theform #var1').val(data_s);
-			$('#theform').submit();
-			return;
-		}
-
-	}
-
   
-});
+}); //ready

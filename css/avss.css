@@ -91,6 +91,7 @@ body {
 .file_row {
 	float:left;
 	clear:both;
+	padding:1px 0;
 }
 
 
@@ -101,7 +102,7 @@ body {
 
 .file_name {
 	float:left;
-	width:500px;
+	width:630px;
 }
 
 .file_length {
@@ -315,3 +316,11 @@ a.audio_lnk {
 }
 
 
+#playertype {
+	margin:5px 0;
+}
+
+/* jplayer */
+div.jp-audio {
+	width: 241px;
+}
