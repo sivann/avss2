@@ -117,6 +117,26 @@ function disablePlayerTypeChange() {
 		$('#playertype input[name=playertype]').off('change');
 }
 
+function playAllSearchResults(caller) {
+	var links=[];
+
+	//create array of files
+	$('#searchresults a.audio_lnk').each(function(i,e) {
+		var href=$(e).attr('href');
+		var $uri=$(e).uri();
+		var params = $uri.search(true)
+		var obj={};
+		obj.path=params.path;
+		obj.file=params.file;
+
+		links.push(obj);
+	});
+
+	//play 
+	var playertype=getPlayerType();
+	playFiles(links,playertype,'keep');
+}
+
 //ready
 $(function() {
 
@@ -147,22 +167,7 @@ $(function() {
 
 	//PLAY ALL search results
 	$('#playall_searchresults').click(function(e) {
-		var links=[];
-		//create array 
-		$('#searchresults a.audio_lnk').each(function(i,e) {
-			var href=$(e).attr('href');
-			var $uri=$(e).uri();
-			var params = $uri.search(true)
-			var obj={};
-			obj.path=params.path;
-			obj.file=params.file;
-
-			links.push(obj);
-		});
-
-		//play 
-		var playertype=getPlayerType();
-		playFiles(links,playertype,'keep');
+		playAllSearchResults(this);
 	});
 
   
