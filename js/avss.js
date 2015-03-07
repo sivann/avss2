@@ -101,8 +101,6 @@ function playFiles(files,method,order) {
 		return;
 	}
 	else {
-		console.log(files[0]);
-		console.log(method+' play method not implemented');
 		jplayer_play(files[0]);
 	}
 }
@@ -160,16 +158,20 @@ function jplayer_play(file) {
 	//doc here:http://www.jplayer.org/latest/developer-guide/#jPlayer-setMedia
 	console.log('here');
 
-	var url;
-	url= "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?action=getfile&file="+file.params.file+"&path="+file.params.path
+	var url,fstr;
+	url= "http://mute.netmode.ece.ntua.gr/avss2/index.php?action=getfile&file="+file.params.file+"&path="+file.params.path
+
 	console.log(url);
+
+	if (file.params.file)
+		fstr=file.params.file;
 
 	$("#jquery_jplayer_1").jPlayer({
 		ready: function () {
 			$(this).jPlayer("setMedia", {
-				title: "Bubble",
-				//m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile&file=the+doors+-+angels+and+sailors+-+08.mp3"
+				title: fstr,
 				m4a: url
+				//m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile&file=the+doors+-+angels+and+sailors+-+08.mp3"
 				//m3ua: file
 			}).jPlayer('play');
 		},
@@ -228,8 +230,8 @@ $(function() {
 	});
 
 	$('#koko').click(function(e) {
-	console.log('play');
-		$("#jquery_jplayer_1").jPlayer("stop");
+	console.log('clearMedia');
+		$("#jquery_jplayer_1").jPlayer("clearMedia");
 	});
   
 }); //ready
