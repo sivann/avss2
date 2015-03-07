@@ -7,13 +7,13 @@ $searchon=$_GET['searchon'];
 
 switch ($searchon) {
 	case 'filename':
-		$res=searchTracksByStr($searchstring);
+		$res_r=searchTracksByStr($searchstring);
 		break;
 	case 'directory':
-		$res=searchDirectoriesByStr($searchstring);
+		$res_r=searchDirectoriesByStr($searchstring);
 		break;
 	case 'style':
-		$res=searchStylesByStr($searchstring);
+		$res_r=searchStylesByStr($searchstring);
 		break;
 	default:
 		echo "Unknown search target";
@@ -25,7 +25,11 @@ switch ($searchon) {
 
         <div id='searchresults'>
 		<?php
-		showTrackResults($res);
+		$nres=count($res_r['result']);
+		echo "$nres results<br>";
+		if (strlen($res_r['msg']))
+			echo $res_r['msg']."<br>";
+		showTrackResults($res_r['result']);
 		?>
 		</div><!-- searchresults -->
 		<?php
