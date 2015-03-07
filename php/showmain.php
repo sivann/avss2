@@ -140,6 +140,10 @@ else
 $time_end = microtime_float();
 $time_elapsed = round($time_end - $time_start, 3); 
 echo "<!-- elapsed: $time_elapsed -->";
+echo "<pre>";
+print_r($_SESSION);
+print_r($_COOKIE);
+echo "</pre>";
 ?>  
 
 <form style="display: hidden" action="/url" method="POST" id="theform">

@@ -23,6 +23,7 @@ switch ($searchon) {
 
 ?>
 
+		<!-- search_div_inc -->
         <div id='searchresults'>
 		<?php
 		$nres=count($res_r['result']);
@@ -46,3 +47,5 @@ switch ($searchon) {
 
 
 		</div>
+		<!-- /search_div_inc -->
+

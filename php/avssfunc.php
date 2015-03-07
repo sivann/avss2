@@ -690,18 +690,21 @@ function logerr($err) {
         syslog(LOG_INFO, "ERROR:$err, REMOTE_ADDRESS:$remaddr, BROWSER:$browser, PHPBACKTRACE:".$phpbt);
 }
 
-function track2lnk_m3u($track) {
+function track2lnk($track,$playertype) {
 	global $basem3u,$SCRIPT_NAME;
 
 	$pathd=$track['directory'];
 	$pathf=$track['filename'];
 
+	if ($playertype=="m3u") {
+	}
 	$lnkf="$basem3u?path=".urlencode($pathd)."&action=getfile_m3u"."&file=".urlencode($pathf);
 	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
-
 	$lnk="<a class='dir_lnk' href='$lnkd'>{$track['directory']}</a>/ ".
-		 "<a class='audio_lnk' href='$lnkf'>{$track['filename']}</a>";
+		 "<a class='audio_lnk play_track db_source' href='$lnkf'>{$track['filename']}</a>";
+
 	return $lnk;
+
 }
 
 
@@ -718,6 +721,9 @@ function track2lnk_save($track) {
 	return $lnk;
 }
 
+function getPlayerType() {
+	return isset($_COOKIE['playertype'])?$_COOKIE['playertype']:"m3u";
+}
 
 function showTrackResults($tracks) {
 	//echo "<table class='table table-condensed table-bordered'>";
@@ -726,7 +732,7 @@ function showTrackResults($tracks) {
 		echo "\n";
 		echo "<tr>";
 		echo "<td class='topalign'>".track2lnk_save($track)."</td>";
-		echo "<td>".track2lnk_m3u($track)."</td>";
+		echo "<td>".track2lnk($track,getPlayerType())."</td>";
 		echo "</td></tr>";
 	}
 	echo "</table>\n";

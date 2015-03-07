@@ -107,22 +107,23 @@ printJSartistphotoarray($pathdata); //fill-in javascript photo table
 			  //VIEW/PLAY ICON
 			  echo "<div class='file_play'>";
 			  if ($isaudio) {
-				  $fclass='audio_lnk';
+				  $fclass='audio_lnk play_track file_source';
 				  $href="$basem3u?path=".urlencode($path)."&action=getfile_m3u"."&file=".urlencode($pathdata['allfiles']["fname"][$j]);
-				  echo "<a title='Play Track' href=\"$href\">".
+				  echo "<a class='$fclass' title='Play Track' href=\"$href\">".
 				  "$icon".
 				  "</a></td>\n";
 			  }
 			  else {
+				  $fclass='file_source';
 				  $href="?path=".urlencode($path)."&action=sendfile"."&file=".urlencode($pathdata['allfiles']["fname"][$j]);
-				  echo "<a href=\"$href\">$icon</a></td>\n";
+				  echo "<a class='$fclass' href=\"$href\">$icon</a></td>\n";
 			  }
 			  echo "</div>\n";
 
 
 			  //view/play named link
 			  echo "<div class='file_name'>";
-			  echo "<a class='audio_lnk' href=\"$href\">";
+			  echo "<a class='$fclass' href=\"$href\">";
 			  echo $pathdata['allfiles']["fname"][$j];
 			  echo "</a>";
 			  echo "</div>\n";

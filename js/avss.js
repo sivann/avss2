@@ -92,9 +92,8 @@ function playFiles(files,method,order) {
 	//m3u: fill file list in hidden form <input> , and POST. 
 	//Cannot do with AJAX because MIME handler is triggered by form's action.
 	if (method == 'm3u') {
-		var data= {order:order, files: files}
-		var data_s;
-		data_s=JSON.stringify(data),
+		var data = {order:order, files: files};
+		var data_s = JSON.stringify(data);
 
 		$('#theform').attr('action','php/getFiles_m3u.php.m3u');
 		$('#theform #var1').val(data_s);
@@ -137,6 +136,24 @@ function playAllSearchResults(caller) {
 	playFiles(links,playertype,'keep');
 }
 
+function playTrack(caller) {
+	var links=[];
+
+	//create object
+	var href=$(caller).attr('href');
+	var $uri=$(caller).uri();
+	var params = $uri.search(true)
+	var obj={};
+	obj.path=params.path;
+	obj.file=params.file;
+	links.push(obj);
+
+	//play 
+	var playertype=getPlayerType();
+	playFiles(links,playertype,'keep');
+}
+
+
 //ready
 $(function() {
 
@@ -165,10 +182,17 @@ $(function() {
 	enablePlayerTypeChange();
 
 
-	//PLAY ALL search results
+	//PLAY track
 	$('#playall_searchresults').click(function(e) {
 		playAllSearchResults(this);
 	});
+
+	//PLAY ALL search results
+	$('.play_track').click(function(e) {
+		e.preventDefault();
+		playTrack(this);
+	});
+
 
   
 }); //ready
