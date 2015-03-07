@@ -1,3 +1,4 @@
+
 <!-- jplayer_div_inc -->
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
@@ -32,11 +33,12 @@
         </div>
         <div class="jp-no-solution">
             <span>Update Required</span>
-      To play the media you will need to either update your browser to a recent version or update your 
+      		To play the media you will need to either update your browser to a recent version or update your 
             <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
     
         </div>
     </div>
 </div><!-- jp_container_1 -->
+<div class='btn btn-info' id='koko'>koko</div>
 
 <!-- /jplayer_div_inc -->

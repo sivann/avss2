@@ -257,6 +257,9 @@ function getFile($fromoffset=0)
   header("icy-pub:0");
 
   $fd = fopen($fn, "rb");
+  if (!$fd) {
+        logerr("getFile: cannot open: $fn");
+  }
 
   if (isset($_SERVER['HTTP_RANGE'])) {
     $seekoffset=intval(substr($_SERVER['HTTP_RANGE'],6));
@@ -336,8 +339,8 @@ function getFiles_m3u($files,$order)
 	echo "#EXTM3U\n";
 
 	foreach ($files as $f) {
-		$path=$f['path'];
-		$file=$f['file'];
+		$path=$f['params']['path'];
+		$file=$f['params']['file'];
 	    $url="?path=".rawurlencode($path)."&file=".rawurlencode($file)."&action=getfile";
 
 		//TODO: read seconds while filling DB
@@ -638,7 +641,7 @@ function db_execute($dbh,$sql,$params=array())
     $errorstr= "DB Error: ($sql): <br>\n".$error[2]."<br>\nParameters:".implode(",",$params);
     $errorbt= debug_backtrace();
     $errorno=$error[1]+$error[0];
-        logerr("$errorstr BACKTRACE:".$errorbt);
+	logerr("$errorstr BACKTRACE:".$errorbt);
     return 0;
   }
 
@@ -690,14 +693,18 @@ function logerr($err) {
         syslog(LOG_INFO, "ERROR:$err, REMOTE_ADDRESS:$remaddr, BROWSER:$browser, PHPBACKTRACE:".$phpbt);
 }
 
+//convert a track DB row to web link
 function track2lnk($track,$playertype) {
 	global $basem3u,$SCRIPT_NAME;
 
 	$pathd=$track['directory'];
 	$pathf=$track['filename'];
 
+	/*
 	if ($playertype=="m3u") {
 	}
+	*/
+
 	$lnkf="$basem3u?path=".urlencode($pathd)."&action=getfile_m3u"."&file=".urlencode($pathf);
 	$lnkd="$SCRIPT_NAME?action=listdir&amp;path=".urlencode($pathd);
 	$lnk="<a class='dir_lnk' href='$lnkd'>{$track['directory']}</a>/ ".

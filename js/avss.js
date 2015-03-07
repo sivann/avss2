@@ -101,7 +101,9 @@ function playFiles(files,method,order) {
 		return;
 	}
 	else {
+		console.log(files[0]);
 		console.log(method+' play method not implemented');
+		jplayer_play(files[0]);
 	}
 }
 
@@ -116,6 +118,25 @@ function disablePlayerTypeChange() {
 		$('#playertype input[name=playertype]').off('change');
 }
 
+function playTrack(caller) {
+	var links=[];
+
+	//create object
+	var href=$(caller).attr('href');
+	var $uri=$(caller).uri();
+	var params = $uri.search(true)
+	var obj={};
+	obj.params=params;
+	obj.href=href;
+	links.push(obj);
+	//console.log($uri.path());
+
+	//play 
+	var playertype=getPlayerType();
+	playFiles(links,playertype,'keep');
+}
+
+
 function playAllSearchResults(caller) {
 	var links=[];
 
@@ -125,9 +146,8 @@ function playAllSearchResults(caller) {
 		var $uri=$(e).uri();
 		var params = $uri.search(true)
 		var obj={};
-		obj.path=params.path;
-		obj.file=params.file;
-
+		obj.params=params;
+		obj.href=href;
 		links.push(obj);
 	});
 
@@ -136,21 +156,35 @@ function playAllSearchResults(caller) {
 	playFiles(links,playertype,'keep');
 }
 
-function playTrack(caller) {
-	var links=[];
+function jplayer_play(file) {
+	//doc here:http://www.jplayer.org/latest/developer-guide/#jPlayer-setMedia
+	console.log('here');
 
-	//create object
-	var href=$(caller).attr('href');
-	var $uri=$(caller).uri();
-	var params = $uri.search(true)
-	var obj={};
-	obj.path=params.path;
-	obj.file=params.file;
-	links.push(obj);
+	var url;
+	url= "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?action=getfile&file="+file.params.file+"&path="+file.params.path
+	console.log(url);
 
-	//play 
-	var playertype=getPlayerType();
-	playFiles(links,playertype,'keep');
+	$("#jquery_jplayer_1").jPlayer({
+		ready: function () {
+			$(this).jPlayer("setMedia", {
+				title: "Bubble",
+				//m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile&file=the+doors+-+angels+and+sailors+-+08.mp3"
+				m4a: url
+				//m3ua: file
+			}).jPlayer('play');
+		},
+		cssSelectorAncestor: "#jp_container_1",
+		swfPath: "/js",
+		supplied: "m4a, oga",
+		preload: "none",
+		useStateClassSkin: true,
+		autoBlur: false,
+		smoothPlayBar: true,
+		keyEnabled: true,
+		remainingDuration: true,
+		toggleDuration: true
+	});
+
 }
 
 
@@ -193,6 +227,9 @@ $(function() {
 		playTrack(this);
 	});
 
-
+	$('#koko').click(function(e) {
+	console.log('play');
+		$("#jquery_jplayer_1").jPlayer("stop");
+	});
   
 }); //ready
