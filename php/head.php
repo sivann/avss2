@@ -7,6 +7,8 @@
 	<script src="js/jquery.cookie.js"></script>
 	<script src="js/URI.js"></script>
 	<script src="js/jquery.jplayer.js"></script>
+	<script src="js/jquery.jplayer.inspector.js"></script>
+	<script src="js/jplayer.playlist.js"></script>
 	<script src="js/avss.js"></script>
 
 	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />

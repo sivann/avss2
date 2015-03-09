@@ -40,5 +40,6 @@
     </div>
 </div><!-- jp_container_1 -->
 <div class='btn btn-info' id='koko'>koko</div>
+<div style='color:black' id="jplayer_inspector_1"></div>
 
 <!-- /jplayer_div_inc -->

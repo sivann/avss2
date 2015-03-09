@@ -43,6 +43,7 @@ switch ($searchon) {
 			<div >
 				<span title='Play All' class='glyphicon glyphicon-play icon-play-big'></span>
 			</div>
+			<div>Play All</div>
 		  </div>
 
 

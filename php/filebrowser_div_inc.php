@@ -105,24 +105,24 @@ printJSartistphotoarray($pathdata); //fill-in javascript photo table
 			  echo "</div>\n";
 
 			  //VIEW/PLAY ICON
-			  echo "<div class='file_play'>";
 			  if ($isaudio) {
 				  $fclass='audio_lnk play_track file_source';
 				  $href="$basem3u?path=".urlencode($path)."&action=getfile_m3u"."&file=".urlencode($pathdata['allfiles']["fname"][$j]);
-				  echo "<a class='$fclass' title='Play Track' href=\"$href\">".
-				  "$icon".
-				  "</a></td>\n";
+				  //echo "<a class='$fclass' title='Play Track' href=\"$href\">".  "$icon".  "</a></td>\n";
 			  }
 			  else {
 				  $fclass='file_source';
 				  $href="?path=".urlencode($path)."&action=sendfile"."&file=".urlencode($pathdata['allfiles']["fname"][$j]);
-				  echo "<a class='$fclass' href=\"$href\">$icon</a></td>\n";
+				  //echo "<a class='$fclass' href=\"$href\">$icon</a></td>\n";
 			  }
-			  echo "</div>\n";
-
 
 			  //view/play named link
-			  echo "<div class='file_name'>";
+			  if ($isaudio) 
+				  $c="file_play";
+			  else
+				  $c="";
+
+			  echo "<div class='file_name $c'>";
 			  echo "<a class='$fclass' href=\"$href\">";
 			  echo $pathdata['allfiles']["fname"][$j];
 			  echo "</a>";
@@ -153,13 +153,17 @@ printJSartistphotoarray($pathdata); //fill-in javascript photo table
 
 			<div id='files_toolbar'>
 
-			  <div class='toolbar_item'>
+			  <div id='playall_files' class='toolbar_item'>
+				<div >
+					<span title='Play All' class='glyphicon glyphicon-play icon-play-big'></span>
+				</div>
+
+				<!--
 				<div >
 				  <?  echo "<a href='$basem3u?path=".urlencode($path)."&action=playdir'><img src='$icon_playall' title='Play Dir'></a>"; ?>
 				</div>
-				<div >
-				  <span><?  echo "<a class='smaller' href='$basem3u?path=".urlencode($path)."&action=playdir'>Play All</a>"; ?></span>
-				</div>
+				-->
+				<div>Play All</div>
 			  </div>
 
 			  <div class='toolbar_item'>
