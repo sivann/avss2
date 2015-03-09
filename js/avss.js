@@ -1,5 +1,6 @@
 var pmode=0; var pwind;
 var currimg=0;
+var jplayer1;
 
 function playlist() {
    if (pmode==0 || pwind.closed==true) {
@@ -74,7 +75,22 @@ function setPlayerType(type) {
 		type='m3u';
 
 	$.cookie('playertype', type);
+	if (type != 'web' ) {
+		disableWebPlayer();
+	}
+	else {
+		enableWebPlayer();
+	}
 	enablePlayerTypeChange();
+}
+
+function disableWebPlayer() {
+	jplayer1.jPlayer("destroy"); 
+	$('#jp_container_1').hide();
+}
+
+function enableWebPlayer() {
+	$('#jp_container_1').show();
 }
 
 function loadPlayerType() {
@@ -156,28 +172,30 @@ function playAllSearchResults(caller) {
 
 function jplayer_play(file) {
 	//doc here:http://www.jplayer.org/latest/developer-guide/#jPlayer-setMedia
-	console.log('here');
+	//m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile&file=the+doors+-+angels+and+sailors+-+08.mp3"
 
 	var url,fstr;
 	url= "http://mute.netmode.ece.ntua.gr/avss2/index.php?action=getfile&file="+file.params.file+"&path="+file.params.path
 
-	console.log(url);
-
 	if (file.params.file)
 		fstr=file.params.file;
 
-	$("#jquery_jplayer_1").jPlayer({
+	jplayer1.jPlayer("clearMedia");
+	jplayer1.jPlayer("destroy"); //otherwise it doesn't change track.
+	//https://groups.google.com/forum/#!topic/jplayer/NSzSXe5nPbE also here to destroy playlist
+	jplayer1.jPlayer({
 		ready: function () {
 			$(this).jPlayer("setMedia", {
 				title: fstr,
 				m4a: url
-				//m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile&file=the+doors+-+angels+and+sailors+-+08.mp3"
-				//m3ua: file
 			}).jPlayer('play');
+			//jplayer1.jPlayer("setMedia", { m4a: url });
 		},
+		solution: "html,flash",
+		swfPath: "js/",
+		errorAlerts: true,
+		supplied: "m4a, mp3, oga",
 		cssSelectorAncestor: "#jp_container_1",
-		swfPath: "/js",
-		supplied: "m4a, oga",
 		preload: "none",
 		useStateClassSkin: true,
 		autoBlur: false,
@@ -217,6 +235,8 @@ $(function() {
 	loadPlayerType(); //call this before enablePlayerTypeChange (or you'll have an event loop)
 	enablePlayerTypeChange();
 
+	jplayer1=$("#jquery_jplayer_1");
+
 
 	//PLAY track
 	$('#playall_searchresults').click(function(e) {
@@ -229,9 +249,15 @@ $(function() {
 		playTrack(this);
 	});
 
+	//hide or show web player on page load
+	setPlayerType(getPlayerType());
+
 	$('#koko').click(function(e) {
 	console.log('clearMedia');
 		$("#jquery_jplayer_1").jPlayer("clearMedia");
+		$("#jquery_jplayer_1").jPlayer("destroy");
+		console.log(jplayer1)
+		return;
 	});
   
 }); //ready
