@@ -64,7 +64,7 @@ else
 
 					<div class="btn-group btn-group-xs" data-toggle="buttons" id=playertype >
 					  <label class="btn btn-default active" id="playertypem3u" title='Call an associated M3U player (VLC,Winamp)'>
-						<input type="radio" name="playertype" value='web'> M3U
+						<input type="radio" name="playertype" value='m3u'> M3U
 					  </label>
 					  <label class="btn btn-default" id='playertypeweb' title='Play through the embedded HTML5/Flash player'>
 						<input type="radio" name="playertype" value='web'> WEB
