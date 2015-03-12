@@ -38,6 +38,13 @@
     
         </div>
     </div>
+
+  <div class="jp-playlist">
+    <ul>
+      <li></li> <!-- Empty <li> so your HTML conforms with the W3C spec -->
+    </ul>
+  </div>
+
 </div><!-- jp_container_1 -->
 <div class='btn btn-info' id='koko'>koko</div>
 <div style='color:black' id="jplayer_inspector_1"></div>

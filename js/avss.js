@@ -117,7 +117,9 @@ function playFiles(files,method,order) {
 		return;
 	}
 	else {
-		jplayer_play(files[0]);
+		//jplayer_play(files[0]);
+		//jplaylist_play(files[0]);
+		jplaylist_play(files);
 	}
 }
 
@@ -190,6 +192,9 @@ function playAllFiles(caller) {
 }
 
 
+function jplayer_init() {
+}
+
 function jplayer_play(file) {
 	//doc here:http://www.jplayer.org/latest/developer-guide/#jPlayer-setMedia
 	//m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile&file=the+doors+-+angels+and+sailors+-+08.mp3"
@@ -227,6 +232,61 @@ function jplayer_play(file) {
 
 }
 
+function jplaylist_play(files) {
+
+	var url,fstr;
+	var files_array=[];
+	var f,x;
+
+	for (i in files) {
+		f=files[i]; //one file
+
+		if (f.params.file)
+			fstr=f.params.file;
+
+		url= "http://mute.netmode.ece.ntua.gr/avss2/index.php?action=getfile&file="+f.params.file+"&path="+f.params.path
+
+		x={ 
+			title:fstr,
+			m4a:url
+		};
+		files_array.push(x);
+	}
+
+	console.log(files_array);
+	//jplayer1.jPlayer("clearMedia");
+	jplayer1.jPlayer("destroy");
+
+
+
+	var myPlaylist = new jPlayerPlaylist({
+		jPlayer: "#jquery_jplayer_1",
+		cssSelectorAncestor: "#jp_container_1"
+	},
+	files_array,
+	{
+		swfPath: "js/",
+		supplied: "m4a, mp3, oga",
+		wmode: "window",
+		useStateClassSkin: true,
+		autoBlur: false,
+		smoothPlayBar: true,
+		keyEnabled: true,
+		remainingDuration: true,
+		toggleDuration: true,
+		cssSelectorAncestor: "#jp_container_1",
+	    playlistOptions: {
+			autoPlay: true,
+			enableRemoveControls: true
+	    }
+	});
+
+	jplayer1.jPlayer('play');
+
+
+
+}
+
 
 //ready
 $(function() {
@@ -256,6 +316,8 @@ $(function() {
 	enablePlayerTypeChange();
 
 	jplayer1=$("#jquery_jplayer_1");
+
+
 
 
 	//PLAY ALL search results
