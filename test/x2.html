@@ -8,12 +8,76 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.jplayer.js"></script>
 
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/URI.js"></script>
+    <script src="js/jquery.jplayer.js"></script>
+    <script src="js/jquery.jplayer.inspector.js"></script>
+    <script src="js/jplayer.playlist.js"></script>
+    <script src="js/avss.js"></script>
+
 
 <title>AudioPlayer :: </title>
 
 
   <script type="text/javascript">
+var jplayer1;
+
     $(document).ready(function(){
+
+		jplayer1= $("#jquery_jplayer_1");
+
+		$('#play').click(function () { jplayer_play(); });
+		$('#play2').click(function () { play2(); });
+
+    }); //ready
+
+	function play2() {
+      $("#jquery_jplayer_1").jPlayer(
+		  "setMedia", {
+			  title: 'koko',
+			  m4a: 'http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a'
+			  }
+	  );
+	}
+
+
+	function jplayer_play(file) {
+		//doc here:http://www.jplayer.org/latest/developer-guide/#jPlayer-setMedia
+		//m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile&file=the+doors+-+angels+and+sailors+-+08.mp3"
+
+		var url,fstr;
+
+		//jplayer1.jPlayer("clearMedia");
+		//jplayer1.jPlayer("destroy"); //otherwise it doesn't change track.
+		//https://groups.google.com/forum/#!topic/jplayer/NSzSXe5nPbE also here to destroy playlist
+		jplayer1.jPlayer({
+			ready: function () {
+				$(this).jPlayer("setMedia", {
+					title: fstr,
+					m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php?action=getfile&path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&file=the+doors+-+angels+and+sailors+-+08.mp3"
+					//m4a: "http://mute.netmode.ece.ntua.gr/avss2/TSP-01-Cro_magnon_man.mp3"
+				}).jPlayer('play');
+				//jplayer1.jPlayer("setMedia", { m4a: url });
+			},
+			solution: "html,flash",
+			swfPath: "js/",
+			errorAlerts: true,
+			supplied: "m4a, mp3, oga",
+			cssSelectorAncestor: "#jp_container_1",
+			preload: "none",
+			useStateClassSkin: true,
+			autoBlur: false,
+			smoothPlayBar: true,
+			keyEnabled: true,
+			remainingDuration: true,
+			toggleDuration: true
+		});
+
+	}
+
+	function playsong() {
+
       $("#jquery_jplayer_1").jPlayer({
         ready: function () {
           $(this).jPlayer("setMedia", {
@@ -23,13 +87,15 @@
             //m3ua: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2FIncoming%2Fchmou%2Fshine+-+the+complete+classics%2Fcd2&action=sendm3u&file=rachmaninoff+-+prelude+in+c+sharp+minor%2C+op.3+no.2+-+02.mp3"
             //m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2FIncoming%2Fchmou%2Fshine+-+the+complete+classics%2Fcd2&action=getfile_m3u&file=rachmaninoff+-+prelude+in+c+sharp+minor%2C+op.3+no.2+-+02.mp3"
             //m3ua: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile_m3u&file=the+doors+-+angels+and+sailors+-+08.mp3"
-            m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php/stream.m3u?path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&action=getfile&file=the+doors+-+angels+and+sailors+-+08.mp3"
+            m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php?action=getfile&path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&file=the+doors+-+angels+and+sailors+-+08.mp3"
 
           });
         },
+        solution: "html,flash",
+        swfPath: "js/",
+        errorAlerts: true,
+        supplied: "m4a, mp3, oga",
         cssSelectorAncestor: "#jp_container_1",
-        swfPath: "/js",
-        supplied: "m4a, oga",
         preload: "none",
         useStateClassSkin: true,
         autoBlur: false,
@@ -38,11 +104,21 @@
         remainingDuration: true,
         toggleDuration: true
       });
-    });
+
+
+
+	}
+
+
   </script>
 
 </head>
 <body>
+
+<a href='x2.html'>x2</a> <br>
+<a id=play href='#'>play</a> <br>
+<a id=play2 href='#'>play2</a> <br>
+<br>
 
 
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>

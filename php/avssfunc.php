@@ -255,7 +255,6 @@ function getFile($fromoffset=0)
 
   header("icy-name: $bfn");
   header("icy-pub:0");
-  header("ETag:8c00ae-51bd07-4c9e757f2c940");
 
   $fd = fopen($fn, "rb");
   if (!$fd) {

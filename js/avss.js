@@ -212,7 +212,8 @@ function jplayer_play(file) {
 		ready: function () {
 			$(this).jPlayer("setMedia", {
 				title: fstr,
-				m4a: url
+				//m4a: url
+				m4a: "http://mute.netmode.ece.ntua.gr/avss2/index.php?action=getfile&path=%2Fmusic%2Fartists%2FT%2Fthe+doors%2Fan+american+prayer&file=the+doors+-+angels+and+sailors+-+08.mp3"
 				//m4a: "http://mute.netmode.ece.ntua.gr/avss2/TSP-01-Cro_magnon_man.mp3"
 			}).jPlayer('play');
 			//jplayer1.jPlayer("setMedia", { m4a: url });
@@ -317,8 +318,6 @@ $(function() {
 	enablePlayerTypeChange();
 
 	jplayer1=$("#jquery_jplayer_1");
-
-
 
 
 	//PLAY ALL search results
